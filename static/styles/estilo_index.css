@@ -1,0 +1,59 @@
+ /* Menú superior */
+        .nav-custom {
+            background: rgba(0,0,0,0.75);
+            backdrop-filter: blur(8px);
+        }
+
+        .nav-custom a {
+            color: #fff !important;
+            font-weight: 500;
+            margin: 0 12px;
+        }
+
+        .nav-custom a:hover {
+            color: #00c8ff !important;
+        }
+
+        /* Portada principal */
+        .hero {
+            width: 100%;
+            height: 90vh;
+            background: url('A_promotional_digital_graphic_design_for_FM_Río,_a.png') no-repeat center center/cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            padding: 40px;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            text-shadow: 2px 2px 20px #000;
+        }
+
+        /* Sub-portada / menú secundario */
+        .sub-hero {
+            background: #0b0e15;
+            color: white;
+            padding: 40px 0;
+        }
+
+        .sub-hero .option-box {
+            background: #111520;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+
+        .sub-hero .option-box:hover {
+            background: #1b2233;
+            transform: translateY(-5px);
+        }
+
+        .option-box h4 {
+            margin-top: 10px;
+            color: #00c8ff;
+        }
