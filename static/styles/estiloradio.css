@@ -1,74 +1,109 @@
+/* ===============================
+   ESTILOS GENERALES
+================================ */
 body {
-            background: #0b0e15;
-            color: white;
-            font-family: 'Segoe UI', sans-serif;
-        }
+    background: #0b0e15;
+    color: white;
+    font-family: 'Segoe UI', sans-serif;
+    margin: 0;
+    padding: 0;
+}
 
-        /* Portada de la radio */
-        .header-radio {
-            width: 100%;
-            min-height: 55vh; /* permite que crezca según el dispositivo */
-            background-image: url('/static/img/portada.png');
-            background-position: center;
-            background-repeat: no-repeat;
-            background-size: cover;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            text-shadow: 3px 3px 12px #000;
-            padding: 40px 20px;
-        }
+/* ===============================
+   PORTADA RADIO (RESPONSIVE)
+================================ */
+.header-radio {
+    width: 100%;
+    height: 55vh;
+    max-height: 420px;
+    background-image: url('/static/img/portada.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
 
-        .header-radio h1 {
-            font-size: 3.5rem;
-            font-weight: 800;
-        }
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-        @media (max-width: 768px) {
-            .header-radio {
-                min-height: 45vh;
-            }
-            .header-radio h1 {
-                font-size: 2.3rem;
-            }
-        }
+    text-shadow: 3px 3px 12px rgba(0, 0, 0, 0.9);
+    padding: 20px;
+}
 
-        @media (max-width: 480px) {
-            .header-radio {
-                min-height: 40vh;
-            }
-            .header-radio h1 {
-                font-size: 1.9rem;
-            }
-        }
+/* ===============================
+   CONTENIDO PRINCIPAL
+================================ */
+.radio-container {
+    max-width: 900px;
+    margin: 50px auto;
+    background: #121823;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.5);
+}
 
-        /* Caja principal */
-        .radio-container {
-            max-width: 900px;
-            margin: 50px auto;
-            background: #121823;
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0px 0px 30px rgba(0,0,0,0.50);
-        }
+/* ===============================
+   BOTÓN RADIO
+================================ */
+.btn-radio {
+    background: linear-gradient(45deg, #00c8ff, #007bff);
+    border: none;
+    padding: 18px 40px;
+    color: white;
+    font-size: 1.3rem;
+    font-weight: bold;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+    box-shadow: 0px 0px 15px rgba(0, 136, 255, 0.7);
+}
 
-        /* Botón elegante */
-        .btn-radio {
-            background: linear-gradient(45deg, #00c8ff, #007bff);
-            border: none;
-            padding: 18px 40px;
-            color: white;
-            font-size: 1.3rem;
-            font-weight: bold;
-            border-radius: 50px;
-            transition: 0.3s;
-            box-shadow: 0px 0px 15px rgba(0,136,255,0.7);
-        }
+.btn-radio:hover {
+    transform: scale(1.08);
+    box-shadow: 0px 0px 25px rgba(0, 136, 255, 1);
+}
 
-        .btn-radio:hover {
-            transform: scale(1.08);
-            box-shadow: 0px 0px 25px rgba(0,136,255,1);
-        }
+/* ===============================
+   REPRODUCTOR
+================================ */
+audio {
+    width: 100%;
+    margin-top: 25px;
+}
+
+/* ===============================
+   RESPONSIVE
+================================ */
+
+/* Tablet */
+@media (max-width: 768px) {
+    .header-radio {
+        height: 35vh;
+        max-height: 300px;
+    }
+
+    .radio-container {
+        padding: 30px;
+        margin: 30px 15px;
+    }
+}
+
+/* Celular */
+@media (max-width: 480px) {
+    .header-radio {
+        height: 28vh;
+        max-height: 220px;
+    }
+
+    .radio-container {
+        padding: 20px;
+        margin: 20px 10px;
+    }
+
+    .btn-radio {
+        font-size: 1.1rem;
+        padding: 14px 30px;
+    }
+}
+
 
         /* Reproductor */
         audio {
