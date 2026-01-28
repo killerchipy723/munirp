@@ -34,8 +34,12 @@
         <!-- REPRODUCTOR -->
         <h4>Reproductor Web</h4>
 
-        <audio id="radioPlayer" controls>
-            <source src="https://200.58.106.156:8000/radio.mp3" type="audio/mpeg">
+        <audio
+            id="radioPlayer"
+            controls
+            preload="none"
+        >
+            <source src="/radio.mp3" type="audio/mpeg">
             Tu navegador no permite reproducir audio en vivo.
         </audio>
 
@@ -45,11 +49,12 @@
     <script>
         function reproducirRadio() {
             const radio = document.getElementById("radioPlayer");
-            radio.play().catch(err => {
-                console.error("Error al reproducir la radio:", err);
+            radio.play().catch(error => {
+                console.error("No se pudo reproducir la radio:", error);
             });
         }
     </script>
 
 </body>
 </html>
+
