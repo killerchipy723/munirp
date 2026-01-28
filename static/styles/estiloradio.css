@@ -89,8 +89,12 @@ audio {
 /* Celular */
 @media (max-width: 480px) {
     .header-radio {
-        height: 28vh;
-        max-height: 220px;
+        height: 26vh;
+        max-height: 210px;
+
+        /* ajuste fino de imagen */
+        background-position: center top;
+        background-size: 110%;
     }
 
     .radio-container {
@@ -103,6 +107,7 @@ audio {
         padding: 14px 30px;
     }
 }
+
 
 
         /* Reproductor */
