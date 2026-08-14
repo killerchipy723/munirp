@@ -24,7 +24,7 @@
     />
 
     <!-- Estilos Personalizados -->
-    <link rel="stylesheet" href="/static/styles/estilo_index.css" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/estilo_index.css') }}" />
   </head>
   <body>
     <!-- NAVEGACIÓN PRINCIPAL -->
@@ -99,169 +99,102 @@
 
           <!-- NOTICIA DESTACADA -->
           {% if destacada %}
-          {% set img_nombre = destacada.get('imagen_url') or destacada.get('imagen') or destacada.get('foto') or destacada.get('url_imagen') %}
-          {% set img_destacada = img_nombre.split('/')[-1] if img_nombre else 'default.jpg' %}
+            {% set img_raw = destacada.get('imagen_url') or destacada.get('imagen') or destacada.get('foto') or destacada.get('url_imagen') or '' %}
+            {% set img_destacada = img_raw.split('/')[-1] if img_raw else 'default.jpg' %}
 
-          <div class="row mb-5">
-            <div class="col-12">
-              <div class="card hero-news-card overflow-hidden">
-                <div class="row g-0 align-items-stretch">
-                  <div
-                    class="col-lg-7 hero-news-img-container position-relative overflow-hidden"
-                    style="min-height: 350px"
-                  >
-                    <img
-                      src="{{ url_for('static', filename='uploads/' + img_destacada) }}"
-                      alt="{{ destacada['titulo'] }}"
-                      class="w-100 h-100 object-fit-cover position-absolute top-0 start-0"
-                    />
-
-                    <span
-                      class="badge badge-category bg-success position-absolute top-0 start-0 m-3 z-1"
+            <div class="row mb-5">
+              <div class="col-12">
+                <div class="card hero-news-card overflow-hidden">
+                  <div class="row g-0 align-items-stretch">
+                    <div
+                      class="col-lg-7 hero-news-img-container position-relative overflow-hidden"
+                      style="min-height: 350px"
                     >
-                      {{ destacada.get('categoria', 'General') }}
-                    </span>
-                  </div>
-                  <div class="col-lg-5 d-flex align-items-center">
-                    <div class="card-body p-4 p-xl-5">
-                      <div class="text-muted small mb-2">
-                        <i class="bi bi-clock me-1"></i> Publicado el {{ destacada['fecha_creacion'].strftime('%d/%m/%Y') if destacada.get('fecha_creacion') }}
-                      </div>
-                      <h2 class="card-title fw-bold h3 mb-3">
-                        {{ destacada['titulo'] }}
-                      </h2>
-                      <p class="card-text text-muted mb-4">
-                        {{ destacada.get('subtitulo') or (destacada.get('cuerpo', '')[:150] ~ '...') }}
-                      </p>
-                      <button
-                        type="button"
-                        class="btn btn-outline-accent"
-                        data-bs-toggle="modal"
-                        data-bs-target="#modalNoticiaDestacada"
+                      <img
+                        src="{{ url_for('static', filename='uploads/' + img_destacada) }}"
+                        alt="{{ destacada.get('titulo', 'Noticia Destacada') }}"
+                        class="w-100 h-100 object-fit-cover position-absolute top-0 start-0"
+                      />
+
+                      <span
+                        class="badge badge-category bg-success position-absolute top-0 start-0 m-3 z-1"
                       >
-                        Leer nota completa <i class="bi bi-arrow-right ms-1"></i>
-                      </button>
+                        {{ destacada.get('categoria') or 'General' }}
+                      </span>
+                    </div>
+                    <div class="col-lg-5 d-flex align-items-center">
+                      <div class="card-body p-4 p-xl-5">
+                        <div class="text-muted small mb-2">
+                          <i class="bi bi-clock me-1"></i> Publicado el 
+                          {% if destacada.get('fecha_creacion') %}
+                            {% if destacada.fecha_creacion.strftime is defined %}
+                              {{ destacada.fecha_creacion.strftime('%d/%m/%Y') }}
+                            {% else %}
+                              {{ destacada.fecha_creacion }}
+                            {% endif %}
+                          {% else %}
+                            Recientemente
+                          {% endif %}
+                        </div>
+                        <h2 class="card-title fw-bold h3 mb-3">
+                          {{ destacada.get('titulo', 'Sin título') }}
+                        </h2>
+                        <p class="card-text text-muted mb-4">
+                          {{ destacada.get('subtitulo') or (destacada.get('cuerpo', '')[:150] ~ '...') }}
+                        </p>
+                        <button
+                          type="button"
+                          class="btn btn-outline-accent"
+                          data-bs-toggle="modal"
+                          data-bs-target="#modalNoticiaDestacada"
+                        >
+                          Leer nota completa <i class="bi bi-arrow-right ms-1"></i>
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
 
-          <!-- MODAL EXPANDIBLE NOTICIA DESTACADA -->
-          <div class="modal fade" id="modalNoticiaDestacada" tabindex="-1" aria-hidden="true">
-            <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
-              <div class="modal-content text-dark">
-                <div class="modal-header">
-                  <h5 class="modal-title fw-bold">{{ destacada['titulo'] }}</h5>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                  <div class="mb-3 text-center">
-                    <img
-                      src="{{ url_for('static', filename='uploads/' + img_destacada) }}"
-                      alt="{{ destacada['titulo'] }}"
-                      class="img-fluid rounded"
-                      style="max-height: 400px; object-fit: cover; width: 100%;"
-                    />
-                  </div>
-                  <p class="text-muted small mb-3">
-                    <i class="bi bi-calendar-event me-1"></i> Fecha: {{ destacada['fecha_creacion'].strftime('%d/%m/%Y') if destacada.get('fecha_creacion') }}
-                    {% if destacada.get('categoria') %}
-                      | <span class="badge bg-secondary">{{ destacada['categoria'] }}</span>
-                    {% endif %}
-                  </p>
-                  {% if destacada.get('subtitulo') %}
-                    <h6 class="fw-semibold text-secondary mb-3">{{ destacada['subtitulo'] }}</h6>
-                  {% endif %}
-                  <hr>
-                  <div class="lh-lg" style="white-space: pre-line;">
-                    {{ destacada.get('cuerpo', '') }}
-                  </div>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                </div>
-              </div>
-            </div>
-          </div>
-          {% endif %}
-
-          <!-- GRID DE NOTICIAS RECIENTES -->
-          <div class="row g-4">
-            {% for noticia in recientes %}
-            {% set img_reciente_nombre = noticia.get('imagen_url') or noticia.get('imagen') or noticia.get('foto') or noticia.get('url_imagen') %}
-            {% set img_noticia = img_reciente_nombre.split('/')[-1] if img_reciente_nombre else 'default.jpg' %}
-            
-            <div class="col-12 col-md-6 col-lg-4">
-              <article class="card news-card h-100">
-                <div
-                  class="card-img-top-wrapper position-relative"
-                  style="height: 220px; overflow: hidden"
-                >
-                  <span
-                    class="badge badge-category bg-success position-absolute top-0 start-0 m-3 z-1"
-                    >{{ noticia.get('categoria', 'General') }}</span
-                  >
-                  <img
-                    src="{{ url_for('static', filename='uploads/' + img_noticia) }}"
-                    class="w-100 h-100 object-fit-cover"
-                    alt="{{ noticia['titulo'] }}"
-                  />
-                </div>
-
-                <div class="card-body d-flex flex-column">
-                  <div class="text-muted small mb-2">
-                    <i class="bi bi-calendar-event me-1"></i> {{
-                    noticia['fecha_creacion'].strftime('%d/%m/%Y') if noticia.get('fecha_creacion') }}
-                  </div>
-                  <h3 class="h5 card-title fw-bold mb-2">
-                    {{ noticia['titulo'] }}
-                  </h3>
-                  <p class="card-text text-muted small flex-grow-1">
-                    {{ noticia.get('subtitulo') or (noticia.get('cuerpo', '')[:100] ~ '...') }}
-                  </p>
-                  <button
-                    type="button"
-                    class="btn btn-link read-more-link mt-3 p-0 text-start text-decoration-none"
-                    data-bs-toggle="modal"
-                    data-bs-target="#modalNoticiaReciente{{ noticia['id'] if noticia.get('id') else loop.index }}"
-                  >
-                    Leer más <i class="bi bi-chevron-right"></i>
-                  </button>
-                </div>
-              </article>
-            </div>
-
-            <!-- MODAL PARA CADA NOTICIA RECIENTE -->
-            <div class="modal fade" id="modalNoticiaReciente{{ noticia['id'] if noticia.get('id') else loop.index }}" tabindex="-1" aria-hidden="true">
+            <!-- MODAL EXPANDIBLE NOTICIA DESTACADA -->
+            <div class="modal fade" id="modalNoticiaDestacada" tabindex="-1" aria-hidden="true">
               <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content text-dark">
                   <div class="modal-header">
-                    <h5 class="modal-title fw-bold">{{ noticia['titulo'] }}</h5>
+                    <h5 class="modal-title fw-bold">{{ destacada.get('titulo', 'Noticia') }}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                   </div>
                   <div class="modal-body">
                     <div class="mb-3 text-center">
                       <img
-                        src="{{ url_for('static', filename='uploads/' + img_noticia) }}"
-                        alt="{{ noticia['titulo'] }}"
+                        src="{{ url_for('static', filename='uploads/' + img_destacada) }}"
+                        alt="{{ destacada.get('titulo', 'Noticia') }}"
                         class="img-fluid rounded"
                         style="max-height: 400px; object-fit: cover; width: 100%;"
                       />
                     </div>
                     <p class="text-muted small mb-3">
-                      <i class="bi bi-calendar-event me-1"></i> Fecha: {{ noticia['fecha_creacion'].strftime('%d/%m/%Y') if noticia.get('fecha_creacion') }}
-                      {% if noticia.get('categoria') %}
-                        | <span class="badge bg-secondary">{{ noticia['categoria'] }}</span>
+                      <i class="bi bi-calendar-event me-1"></i> Fecha: 
+                      {% if destacada.get('fecha_creacion') %}
+                        {% if destacada.fecha_creacion.strftime is defined %}
+                          {{ destacada.fecha_creacion.strftime('%d/%m/%Y') }}
+                        {% else %}
+                          {{ destacada.fecha_creacion }}
+                        {% endif %}
+                      {% else %}
+                        No especificada
+                      {% endif %}
+                      {% if destacada.get('categoria') %}
+                        | <span class="badge bg-secondary">{{ destacada.get('categoria') }}</span>
                       {% endif %}
                     </p>
-                    {% if noticia.get('subtitulo') %}
-                      <h6 class="fw-semibold text-secondary mb-3">{{ noticia['subtitulo'] }}</h6>
+                    {% if destacada.get('subtitulo') %}
+                      <h6 class="fw-semibold text-secondary mb-3">{{ destacada.get('subtitulo') }}</h6>
                     {% endif %}
                     <hr>
                     <div class="lh-lg" style="white-space: pre-line;">
-                      {{ noticia.get('cuerpo', '') }}
+                      {{ destacada.get('cuerpo', '') }}
                     </div>
                   </div>
                   <div class="modal-footer">
@@ -270,11 +203,114 @@
                 </div>
               </div>
             </div>
+          {% endif %}
+
+          <!-- GRID DE NOTICIAS RECIENTES -->
+          <div class="row g-4">
+            {% for noticia in recientes %}
+              {% set img_rec_raw = noticia.get('imagen_url') or noticia.get('imagen') or noticia.get('foto') or noticia.get('url_imagen') or '' %}
+              {% set img_noticia = img_rec_raw.split('/')[-1] if img_rec_raw else 'default.jpg' %}
+              {% set noticia_id = noticia.get('id') or loop.index %}
+              
+              <div class="col-12 col-md-6 col-lg-4">
+                <article class="card news-card h-100">
+                  <div
+                    class="card-img-top-wrapper position-relative"
+                    style="height: 220px; overflow: hidden"
+                  >
+                    <span
+                      class="badge badge-category bg-success position-absolute top-0 start-0 m-3 z-1"
+                      >{{ noticia.get('categoria') or 'General' }}</span
+                    >
+                    <img
+                      src="{{ url_for('static', filename='uploads/' + img_noticia) }}"
+                      class="w-100 h-100 object-fit-cover"
+                      alt="{{ noticia.get('titulo', 'Noticia') }}"
+                    />
+                  </div>
+
+                  <div class="card-body d-flex flex-column">
+                    <div class="text-muted small mb-2">
+                      <i class="bi bi-calendar-event me-1"></i> 
+                      {% if noticia.get('fecha_creacion') %}
+                        {% if noticia.fecha_creacion.strftime is defined %}
+                          {{ noticia.fecha_creacion.strftime('%d/%m/%Y') }}
+                        {% else %}
+                          {{ noticia.fecha_creacion }}
+                        {% endif %}
+                      {% else %}
+                        Recientemente
+                      {% endif %}
+                    </div>
+                    <h3 class="h5 card-title fw-bold mb-2">
+                      {{ noticia.get('titulo', 'Sin título') }}
+                    </h3>
+                    <p class="card-text text-muted small flex-grow-1">
+                      {{ noticia.get('subtitulo') or (noticia.get('cuerpo', '')[:100] ~ '...') }}
+                    </p>
+                    <button
+                      type="button"
+                      class="btn btn-link read-more-link mt-3 p-0 text-start text-decoration-none"
+                      data-bs-toggle="modal"
+                      data-bs-target="#modalNoticiaReciente{{ noticia_id }}"
+                    >
+                      Leer más <i class="bi bi-chevron-right"></i>
+                    </button>
+                  </div>
+                </article>
+              </div>
+
+              <!-- MODAL PARA CADA NOTICIA RECIENTE -->
+              <div class="modal fade" id="modalNoticiaReciente{{ noticia_id }}" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+                  <div class="modal-content text-dark">
+                    <div class="modal-header">
+                      <h5 class="modal-title fw-bold">{{ noticia.get('titulo', 'Noticia') }}</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      <div class="mb-3 text-center">
+                        <img
+                          src="{{ url_for('static', filename='uploads/' + img_noticia) }}"
+                          alt="{{ noticia.get('titulo', 'Noticia') }}"
+                          class="img-fluid rounded"
+                          style="max-height: 400px; object-fit: cover; width: 100%;"
+                        />
+                      </div>
+                      <p class="text-muted small mb-3">
+                        <i class="bi bi-calendar-event me-1"></i> Fecha: 
+                        {% if noticia.get('fecha_creacion') %}
+                          {% if noticia.fecha_creacion.strftime is defined %}
+                            {{ noticia.fecha_creacion.strftime('%d/%m/%Y') }}
+                          {% else %}
+                            {{ noticia.fecha_creacion }}
+                          {% endif %}
+                        {% else %}
+                          No especificada
+                        {% endif %}
+                        {% if noticia.get('categoria') %}
+                          | <span class="badge bg-secondary">{{ noticia.get('categoria') }}</span>
+                        {% endif %}
+                      </p>
+                      {% if noticia.get('subtitulo') %}
+                        <h6 class="fw-semibold text-secondary mb-3">{{ noticia.get('subtitulo') }}</h6>
+                      {% endif %}
+                      <hr>
+                      <div class="lh-lg" style="white-space: pre-line;">
+                        {{ noticia.get('cuerpo', '') }}
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
             {% else %}
-            <div class="col-12 text-center py-5">
-              <p class="text-muted">Aún no hay noticias publicadas.</p>
-            </div>
+              <div class="col-12 text-center py-5">
+                <p class="text-muted">Aún no hay noticias publicadas.</p>
+              </div>
             {% endfor %}
           </div>
         </div>
@@ -519,7 +555,7 @@
       </div>
     </footer>
 
-    <!-- Bootstrap Bundle JS (Requerido para que abran los modales) -->
+    <!-- Bootstrap Bundle JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   </body>
 </html>
