@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,15 +9,18 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&family=Roboto:wght@400;500;700&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="/static/styles/style_insc.css">
     <!-- Bootstrap 5 CSS & Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
 
     <!-- HOJA DE ESTILOS PERSONALIZADA -->
-   
+
 </head>
+
 <body>
 
     <!-- HEADER HERO -->
@@ -42,7 +46,7 @@
     <main class="container mb-5">
         <div class="row justify-content-center">
             <div class="col-12 col-md-10 col-lg-7">
-                
+
                 <div class="card form-card">
                     <div class="card-header-custom">
                         <div class="d-flex align-items-center gap-3">
@@ -55,17 +59,20 @@
                     </div>
 
                     <div class="card-body p-4">
-                        <form id="form-inscripcion" action="/guardar-inscripcion" method="POST" enctype="multipart/form-data">
-                            
+                        <form id="form-inscripcion" action="/guardar-inscripcion" method="POST"
+                            enctype="multipart/form-data">
+
                             <!-- Apellido y Nombre -->
                             <div class="row g-3 mb-3">
                                 <div class="col-12 col-sm-6">
                                     <label class="form-label">Apellido</label>
-                                    <input type="text" name="apellido" class="form-control text-upper" placeholder="Ej: GÓMEZ" required>
+                                    <input type="text" name="apellido" class="form-control text-upper"
+                                        placeholder="Ej: GÓMEZ" required>
                                 </div>
                                 <div class="col-12 col-sm-6">
                                     <label class="form-label">Nombre</label>
-                                    <input type="text" name="nombre" class="form-control text-upper" placeholder="Ej: JUAN CARLOS" required>
+                                    <input type="text" name="nombre" class="form-control text-upper"
+                                        placeholder="Ej: JUAN CARLOS" required>
                                 </div>
                             </div>
 
@@ -73,11 +80,13 @@
                             <div class="row g-3 mb-3">
                                 <div class="col-12 col-sm-6">
                                     <label class="form-label">DNI / Documento</label>
-                                    <input type="text" name="dni" class="form-control" placeholder="Sin puntos" required>
+                                    <input type="text" name="dni" class="form-control" placeholder="Sin puntos"
+                                        required>
                                 </div>
                                 <div class="col-12 col-sm-6">
                                     <label class="form-label">Localidad / Ciudad</label>
-                                    <input type="text" name="localidad" class="form-control text-upper" placeholder="Ej: RÍO PIEDRAS" required>
+                                    <input type="text" name="localidad" class="form-control text-upper"
+                                        placeholder="Ej: RÍO PIEDRAS" required>
                                 </div>
                             </div>
 
@@ -93,7 +102,13 @@
                                 </div>
                                 <div class="col-12 col-sm-6">
                                     <label class="form-label">Fecha de Nacimiento</label>
-                                    <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" class="form-control" required>
+
+                                    <!-- Campo visible para el usuario (Abre teclado numérico en móviles) -->
+                                    <input type="text" id="fecha_nacimiento_mask" class="form-control"
+                                        placeholder="DD/MM/AAAA" maxlength="10" inputmode="numeric" required>
+
+                                    <!-- Campo oculto que se envía al servidor en formato YYYY-MM-DD -->
+                                    <input type="hidden" id="fecha_nacimiento" name="fecha_nacimiento">
                                 </div>
                             </div>
 
@@ -113,9 +128,11 @@
                                 <label class="form-label">Fotografía del Competidor (Selfie)</label>
                                 <div class="input-group">
                                     <span class="input-group-text"><i class="bi bi-camera-fill"></i></span>
-                                    <input type="file" name="foto" class="form-control" accept="image/*" capture="environment" required>
+                                    <input type="file" name="foto" class="form-control" accept="image/*"
+                                        capture="environment" required>
                                 </div>
-                                <small class="text-muted d-block mt-1"><i class="bi bi-info-circle me-1"></i>En dispositivos móviles abrirá la cámara directamente.</small>
+                                <small class="text-muted d-block mt-1"><i class="bi bi-info-circle me-1"></i>En
+                                    dispositivos móviles abrirá la cámara directamente.</small>
                             </div>
 
                             <!-- Botón Enviar -->
@@ -134,7 +151,7 @@
     <div class="modal fade" id="modalConfirmacion" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
-                
+
                 <div class="modal-header-success">
                     <div class="success-icon-wrapper">
                         <i class="bi bi-check-lg"></i>
@@ -174,7 +191,8 @@
                         </div>
                     </div>
 
-                    <button type="button" class="btn btn-dark w-100 py-2.5 fw-bold" style="border-radius: 10px;" data-bs-dismiss="modal">
+                    <button type="button" class="btn btn-dark w-100 py-2.5 fw-bold" style="border-radius: 10px;"
+                        data-bs-dismiss="modal">
                         Aceptar y Cerrar
                     </button>
                 </div>
@@ -182,116 +200,27 @@
         </div>
     </div>
 
-  
+
     <!-- CONTENEDOR OCULTO PARA PASAR DATOS A JS -->
     {% with messages = get_flashed_messages(with_categories=true) %}
-      {% if messages %}
-        {% for category, message in messages %}
-          {% if category == 'success' %}
-            <div id="flash-success-data" 
-                 style="display:none;" 
-                 data-nombre="{{ session.pop('inscrito_nombre', 'COMPETIDOR') }}"
-                 data-dni="{{ session.pop('inscrito_dni', '-') }}"
-                 data-categoria="{{ session.pop('inscrito_categoria', 'General') }}"
-                 data-id="{{ session.pop('inscrito_id', '001') }}">
-            </div>
-          {% endif %}
-        {% endfor %}
-      {% endif %}
+    {% if messages %}
+    {% for category, message in messages %}
+    {% if category == 'success' %}
+    <div id="flash-success-data" style="display:none;" data-nombre="{{ session.pop('inscrito_nombre', 'COMPETIDOR') }}"
+        data-dni="{{ session.pop('inscrito_dni', '-') }}"
+        data-categoria="{{ session.pop('inscrito_categoria', 'General') }}"
+        data-id="{{ session.pop('inscrito_id', '001') }}">
+    </div>
+    {% endif %}
+    {% endfor %}
+    {% endif %}
     {% endwith %}
 
     <!-- JS Bootstrap -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <!-- LÓGICA JAVASCRIPT -->
-    <script>
-        const inputFechaNac = document.getElementById('fecha_nacimiento');
-        const selectGenero = document.getElementById('genero');
-        const selectCategoria = document.getElementById('categoria_id');
-        const inputCircuitoId = document.getElementById('circuito_id');
-
-        let listaCategorias = [];
-
-        function validarYBuscarCategorias() {
-            const fecha = inputFechaNac.value;
-            const genero = selectGenero.value;
-
-            if (fecha && genero) {
-                fetch('/api/obtener-categorias', {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({ fecha_nacimiento: fecha, genero: genero })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    listaCategorias = data.categorias;
-                    selectCategoria.innerHTML = '<option value="">Seleccione categoría...</option>';
-                    selectCategoria.disabled = false;
-                    
-                    listaCategorias.forEach(cat => {
-                        const opt = document.createElement('option');
-                        opt.value = cat.categoria_id;
-                        opt.setAttribute('data-circuito', cat.circuito_id);
-                        opt.textContent = `${cat.categoria_nombre} (${cat.kilometros} KM)`;
-                        selectCategoria.appendChild(opt);
-                    });
-                })
-                .catch(err => console.error("Error obteniendo categorías:", err));
-            }
-        }
-
-        selectCategoria.addEventListener('change', function() {
-            const selectedOption = this.options[this.selectedIndex];
-            const circuitoId = selectedOption.getAttribute('data-circuito');
-            inputCircuitoId.value = circuitoId || '';
-        });
-
-        if (inputFechaNac) inputFechaNac.addEventListener('change', validarYBuscarCategorias);
-        if (selectGenero) selectGenero.addEventListener('change', validarYBuscarCategorias);
-
-        const formInscripcion = document.getElementById('form-inscripcion');
-        if (formInscripcion) {
-            formInscripcion.addEventListener('submit', function(e) {
-                selectCategoria.disabled = false;
-                if (!inputCircuitoId.value) {
-                    const selectedOption = selectCategoria.options[selectCategoria.selectedIndex];
-                    const circuitoId = selectedOption.getAttribute('data-circuito');
-                    if (circuitoId) {
-                        inputCircuitoId.value = circuitoId;
-                    }
-                }
-            });
-        }
-
-        // --- DETECCIÓN Y DESPLIEGUE DEL MODAL ---
-        document.addEventListener("DOMContentLoaded", function() {
-            const flashData = document.getElementById('flash-success-data');
-            
-            if (flashData) {
-                const nombre = flashData.getAttribute('data-nombre');
-                const dni = flashData.getAttribute('data-dni');
-                const categoria = flashData.getAttribute('data-categoria');
-                const idInscrito = flashData.getAttribute('data-id');
-
-                const elNombre = document.getElementById('resumenNombre');
-                const elDni = document.getElementById('resumenDni');
-                const elCat = document.getElementById('resumenCategoria');
-                const elNum = document.getElementById('resumenNumero');
-                const elFecha = document.getElementById('resumenFecha');
-
-                if (elNombre) elNombre.innerText = nombre;
-                if (elDni) elDni.innerText = dni;
-                if (elCat) elCat.innerText = categoria;
-                if (elNum) elNum.innerText = "#MTB-2026-" + idInscrito;
-                if (elFecha) elFecha.innerText = new Date().toLocaleDateString('es-AR');
-
-                const modalElement = document.getElementById('modalConfirmacion');
-                if (modalElement) {
-                    const modalObj = new bootstrap.Modal(modalElement);
-                    modalObj.show();
-                }
-            }
-        });
-    </script>
+    <script src="/static/js/inscripcion.js"></script>
 </body>
+
 </html>
