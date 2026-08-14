@@ -73,11 +73,11 @@ def guardar_inscripcion():
                 return redirect(url_for('mtb.inscripcion_mtb'))
 
             # 2. Recibir los datos del formulario
-            apellido = request.form.get('apellido')
-            nombre = request.form.get('nombre')
-            localidad = request.form.get('localidad')
+            apellido = request.form.get('apellido').lower()
+            nombre = request.form.get('nombre').lower()
+            localidad = request.form.get('localidad').lower()
             fecha_nacimiento = request.form.get('fecha_nacimiento')
-            genero = request.form.get('genero')
+            genero = request.form.get('genero').lower()
             categoria_id = request.form.get('categoria_id')
             circuito_id = request.form.get('circuito_id')
             
@@ -99,6 +99,7 @@ def guardar_inscripcion():
         conn.commit()  # Confirmamos el guardado ya que autocommit=False
     except Exception as e:
         conn.rollback()
+        print(f"ERROR AL GUARDAR INSCRIPCION: {e}") # <-- Esto te mostrará el error exacto en tu consola negra/terminal de Python
         flash(f'Ocurrió un error al guardar: {e}', 'danger')
         return redirect(url_for('mtb.inscripcion_mtb'))
     finally:

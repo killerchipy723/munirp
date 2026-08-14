@@ -6,7 +6,6 @@
     <title>Inscripción Evento MTB</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        /* Forzar mayúsculas en los campos de texto */
         .text-upper { text-transform: uppercase; }
     </style>
 </head>
@@ -20,7 +19,17 @@
                     <h4>Inscripción - Mountain Bike</h4>
                 </div>
                 <div class="card-body">
-                    <form action="/guardar-inscripcion" method="POST" enctype="multipart/form-data">
+                    
+                    <!-- Mensajes de alerta flash -->
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                      {% if messages %}
+                        {% for category, message in messages %}
+                          <div class="alert alert-{{ category }}">{{ message }}</div>
+                        {% endfor %}
+                      {% endif %}
+                    {% endwith %}
+
+                    <form id="form-inscripcion" action="/guardar-inscripcion" method="POST" enctype="multipart/form-data">
                         
                         <div class="row mb-3">
                             <div class="col-6">
@@ -66,7 +75,9 @@
                             </select>
                         </div>
 
-                        <!-- Captura de foto con cámara o archivo -->
+                        <!-- Campo oculto para enviar el circuito -->
+                        <input type="hidden" id="circuito_id" name="circuito_id">
+
                         <div class="mb-4">
                             <label class="form-label">Foto / Selfie</label>
                             <input type="file" name="foto" class="form-control" accept="image/*" capture="environment" required>
@@ -82,10 +93,12 @@
 </div>
 
 <script>
-    // Tu script original sigue funcionando, solo ajustamos los selectores
     const inputFechaNac = document.getElementById('fecha_nacimiento');
     const selectGenero = document.getElementById('genero');
     const selectCategoria = document.getElementById('categoria_id');
+    const inputCircuitoId = document.getElementById('circuito_id');
+
+    let listaCategorias = [];
 
     function validarYBuscarCategorias() {
         const fecha = inputFechaNac.value;
@@ -99,20 +112,45 @@
             })
             .then(response => response.json())
             .then(data => {
+                listaCategorias = data.categorias;
                 selectCategoria.innerHTML = '<option value="">Seleccione categoría...</option>';
                 selectCategoria.disabled = false;
-                data.categorias.forEach(cat => {
+                
+                listaCategorias.forEach(cat => {
                     const opt = document.createElement('option');
                     opt.value = cat.categoria_id;
-                    opt.textContent = `${cat.categoria_nombre} - ${cat.kilometros} KM`;
+                    // Guardamos el circuito_id directamente en un atributo de la opción para asegurarnos de tenerlo a mano
+                    opt.setAttribute('data-circuito', cat.circuito_id);
+                    opt.textContent = `${cat.categoria_nombre} (${cat.kilometros} KM)`;
                     selectCategoria.appendChild(opt);
                 });
             });
         }
     }
 
+    // Actualizar el circuito oculto cuando cambie la categoría
+    selectCategoria.addEventListener('change', function() {
+        const selectedOption = this.options[this.selectedIndex];
+        const circuitoId = selectedOption.getAttribute('data-circuito');
+        inputCircuitoId.value = circuitoId || '';
+    });
+
     inputFechaNac.addEventListener('change', validarYBuscarCategorias);
     selectGenero.addEventListener('change', validarYBuscarCategorias);
+
+    // Al enviar el formulario, aseguramos que el select no esté disabled y que el circuito_id esté seteado
+    document.getElementById('form-inscripcion').addEventListener('submit', function(e) {
+        selectCategoria.disabled = false;
+        
+        // Verificación de seguridad por si el usuario no cambió el select manualmente
+        if (!inputCircuitoId.value) {
+            const selectedOption = selectCategoria.options[selectCategoria.selectedIndex];
+            const circuitoId = selectedOption.getAttribute('data-circuito');
+            if (circuitoId) {
+                inputCircuitoId.value = circuitoId;
+            }
+        }
+    });
 </script>
 
 </body>
