@@ -1,5 +1,5 @@
 # modules/mtb.py
-from flask import Blueprint, render_template, request, jsonify, redirect, url_for, flash
+from flask import Blueprint, render_template, request, jsonify, redirect, url_for, flash, session
 from datetime import datetime
 import os
 from db import get_connection  # Importa tu conexión de db.py
@@ -13,7 +13,7 @@ os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 def inscripcion_mtb():
     return render_template('inscripcion_mtb.html')
 
-# API que consulta categorías en la BD usando tu conexión de db.py
+# API que consulta categorías en la BD según edad y género
 @mtb_bp.route('/api/obtener-categorias', methods=['POST'])
 def obtener_categorias():
     data = request.get_json() or {}
@@ -23,15 +23,19 @@ def obtener_categorias():
     if not fecha_nac_str or not genero:
         return jsonify({'error': 'Faltan datos requeridos'}), 400
 
-    # Calcular edad
-    fecha_nac = datetime.strptime(fecha_nac_str, '%Y-%m-%d')
-    hoy = datetime.today()
-    edad = hoy.year - fecha_nac.year - ((hoy.month, hoy.day) < (fecha_nac.month, fecha_nac.day))
+    try:
+        # Calcular edad
+        fecha_nac = datetime.strptime(fecha_nac_str, '%Y-%m-%d')
+        hoy = datetime.today()
+        edad = hoy.year - fecha_nac.year - ((hoy.month, hoy.day) < (fecha_nac.month, fecha_nac.day))
+    except ValueError:
+        return jsonify({'error': 'Formato de fecha inválido'}), 400
 
     conn = get_connection()
     categorias = []
     try:
         with conn.cursor() as cursor:
+            # Usamos UPPER() en género para evitar fallos por minúsculas/mayúsculas
             query = """
                 SELECT 
                     c.id AS categoria_id,
@@ -43,11 +47,14 @@ def obtener_categorias():
                 FROM categorias c
                 JOIN circuitos cir ON c.circuito_id = cir.id
                 WHERE %s BETWEEN c.edad_min AND c.edad_max
-                  AND (c.genero = %s OR c.genero = 'UNISEX')
+                  AND (UPPER(c.genero) = UPPER(%s) OR UPPER(c.genero) = 'UNISEX')
                 ORDER BY c.grupo, c.nombre
             """
             cursor.execute(query, (edad, genero))
             categorias = cursor.fetchall()
+    except Exception as e:
+        print(f"ERROR EN OBTENER CATEGORIAS: {e}")
+        return jsonify({'error': str(e)}), 500
     finally:
         conn.close()
 
@@ -56,7 +63,7 @@ def obtener_categorias():
         'categorias': categorias
     })
 
-# Guardar inscripción
+# Guardar inscripción y preparar datos para el comprobante
 @mtb_bp.route('/guardar-inscripcion', methods=['POST'])
 def guardar_inscripcion():
     dni = request.form.get('dni', '').strip()
@@ -73,11 +80,11 @@ def guardar_inscripcion():
                 return redirect(url_for('mtb.inscripcion_mtb'))
 
             # 2. Recibir los datos del formulario
-            apellido = request.form.get('apellido').lower()
-            nombre = request.form.get('nombre').lower()
-            localidad = request.form.get('localidad').lower()
+            apellido = request.form.get('apellido', '').strip().upper()
+            nombre = request.form.get('nombre', '').strip().upper()
+            localidad = request.form.get('localidad', '').strip().upper()
             fecha_nacimiento = request.form.get('fecha_nacimiento')
-            genero = request.form.get('genero').lower()
+            genero = request.form.get('genero', '').strip().upper()
             categoria_id = request.form.get('categoria_id')
             circuito_id = request.form.get('circuito_id')
             
@@ -88,18 +95,33 @@ def guardar_inscripcion():
                 filename = f"{dni}_{foto.filename}"
                 foto.save(os.path.join(UPLOAD_FOLDER, filename))
 
-            # Insertar en MySQL remota
+            # Insertar participante
             query = """
                 INSERT INTO participantes 
                 (apellido, nombre, dni, localidad, fecha_nacimiento, genero, foto, categoria_id, circuito_id)
                 VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
             """
             cursor.execute(query, (apellido, nombre, dni, localidad, fecha_nacimiento, genero, filename, categoria_id, circuito_id))
+            inscrito_id = cursor.lastrowid
+
+            # 3. Consultar nombre de la categoría asignada
+            cursor.execute("SELECT nombre FROM categorias WHERE id = %s", (categoria_id,))
+            cat_res = cursor.fetchone()
+            
+            categoria_nombre = 'General'
+            if cat_res:
+                categoria_nombre = cat_res['nombre'] if isinstance(cat_res, dict) else cat_res[0]
+
+            # 4. Guardar datos en la sesión para alimentar la tarjeta/comprobante
+            session['inscrito_id'] = str(inscrito_id).zfill(3) if inscrito_id else '001'
+            session['inscrito_nombre'] = f"{nombre} {apellido}"
+            session['inscrito_dni'] = dni
+            session['inscrito_categoria'] = categoria_nombre
         
-        conn.commit()  # Confirmamos el guardado ya que autocommit=False
+        conn.commit()
     except Exception as e:
         conn.rollback()
-        print(f"ERROR AL GUARDAR INSCRIPCION: {e}") # <-- Esto te mostrará el error exacto en tu consola negra/terminal de Python
+        print(f"ERROR AL GUARDAR INSCRIPCION: {e}")
         flash(f'Ocurrió un error al guardar: {e}', 'danger')
         return redirect(url_for('mtb.inscripcion_mtb'))
     finally:

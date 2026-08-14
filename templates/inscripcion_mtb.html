@@ -3,155 +3,295 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inscripción Evento MTB</title>
+    <title>2° Edición Mountain Bike 2026 – Río Piedras</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/styles/style_insc.css">
+    <!-- Bootstrap 5 CSS & Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        .text-upper { text-transform: uppercase; }
-    </style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+
+    <!-- HOJA DE ESTILOS PERSONALIZADA -->
+   
 </head>
-<body class="bg-light">
+<body>
 
-<div class="container py-4">
-    <div class="row justify-content-center">
-        <div class="col-12 col-md-8 col-lg-6">
-            <div class="card shadow">
-                <div class="card-header bg-primary text-white text-center">
-                    <h4>Inscripción - Mountain Bike</h4>
-                </div>
-                <div class="card-body">
-                    
-                    <!-- Mensajes de alerta flash -->
-                    {% with messages = get_flashed_messages(with_categories=true) %}
-                      {% if messages %}
-                        {% for category, message in messages %}
-                          <div class="alert alert-{{ category }}">{{ message }}</div>
-                        {% endfor %}
-                      {% endif %}
-                    {% endwith %}
+    <!-- HEADER HERO -->
+    <header class="hero-banner text-center">
+        <div class="container">
+            <span class="badge-edition mb-3">
+                <i class="bi bi-calendar-event me-1"></i> EDICIÓN 2026
+            </span>
+            <h1 class="event-title mb-2">
+                2° MOUNTAIN BIKE
+            </h1>
+            <h2 class="h4 fw-bold mb-3" style="color: var(--accent-color);">
+                RÍO PIEDRAS – SALTA
+            </h2>
+            <div class="d-flex justify-content-center gap-3 flex-wrap text-white-50 small">
+                <span><i class="bi bi-geo-alt-fill text-danger me-1"></i> Circuito Municipal</span>
+                <span><i class="bi bi-trophy-fill text-warning me-1"></i> Cronometraje Oficial</span>
+            </div>
+        </div>
+    </header>
 
-                    <form id="form-inscripcion" action="/guardar-inscripcion" method="POST" enctype="multipart/form-data">
-                        
-                        <div class="row mb-3">
-                            <div class="col-6">
-                                <label class="form-label">Apellido</label>
-                                <input type="text" name="apellido" class="form-control text-upper" required>
-                            </div>
-                            <div class="col-6">
-                                <label class="form-label">Nombre</label>
-                                <input type="text" name="nombre" class="form-control text-upper" required>
-                            </div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <div class="col-6">
-                                <label class="form-label">DNI</label>
-                                <input type="text" name="dni" class="form-control" required>
-                            </div>
-                            <div class="col-6">
-                                <label class="form-label">Localidad</label>
-                                <input type="text" name="localidad" class="form-control text-upper" required>
+    <!-- FORMULARIO PRINCIPAL -->
+    <main class="container mb-5">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-10 col-lg-7">
+                
+                <div class="card form-card">
+                    <div class="card-header-custom">
+                        <div class="d-flex align-items-center gap-3">
+                            <i class="bi bi-person-vcard fs-2" style="color: var(--primary-color);"></i>
+                            <div>
+                                <h3 class="h5 font-heading text-dark m-0">Formulario de Inscripción</h3>
+                                <small class="text-muted">Completá todos los campos para asegurar tu lugar.</small>
                             </div>
                         </div>
+                    </div>
 
-                        <div class="row mb-3">
-                            <div class="col-6">
-                                <label class="form-label">Género</label>
-                                <select id="genero" name="genero" class="form-select" required>
-                                    <option value="">Seleccione...</option>
-                                    <option value="M">Masculino</option>
-                                    <option value="F">Femenino</option>
+                    <div class="card-body p-4">
+                        <form id="form-inscripcion" action="/guardar-inscripcion" method="POST" enctype="multipart/form-data">
+                            
+                            <!-- Apellido y Nombre -->
+                            <div class="row g-3 mb-3">
+                                <div class="col-12 col-sm-6">
+                                    <label class="form-label">Apellido</label>
+                                    <input type="text" name="apellido" class="form-control text-upper" placeholder="Ej: GÓMEZ" required>
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                    <label class="form-label">Nombre</label>
+                                    <input type="text" name="nombre" class="form-control text-upper" placeholder="Ej: JUAN CARLOS" required>
+                                </div>
+                            </div>
+
+                            <!-- DNI y Localidad -->
+                            <div class="row g-3 mb-3">
+                                <div class="col-12 col-sm-6">
+                                    <label class="form-label">DNI / Documento</label>
+                                    <input type="text" name="dni" class="form-control" placeholder="Sin puntos" required>
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                    <label class="form-label">Localidad / Ciudad</label>
+                                    <input type="text" name="localidad" class="form-control text-upper" placeholder="Ej: RÍO PIEDRAS" required>
+                                </div>
+                            </div>
+
+                            <!-- Género y Fecha Nacimiento -->
+                            <div class="row g-3 mb-3">
+                                <div class="col-12 col-sm-6">
+                                    <label class="form-label">Género</label>
+                                    <select id="genero" name="genero" class="form-select" required>
+                                        <option value="">Seleccione...</option>
+                                        <option value="M">Masculino</option>
+                                        <option value="F">Femenino</option>
+                                    </select>
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                    <label class="form-label">Fecha de Nacimiento</label>
+                                    <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" class="form-control" required>
+                                </div>
+                            </div>
+
+                            <!-- Categoría -->
+                            <div class="mb-3">
+                                <label class="form-label">Categoría Asignada</label>
+                                <select id="categoria_id" name="categoria_id" class="form-select" required disabled>
+                                    <option value="">Primero seleccione fecha y género...</option>
                                 </select>
                             </div>
-                            <div class="col-6">
-                                <label class="form-label">Fecha Nacimiento</label>
-                                <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" class="form-control" required>
+
+                            <!-- Campo Oculto para Circuito -->
+                            <input type="hidden" id="circuito_id" name="circuito_id">
+
+                            <!-- Foto / Selfie -->
+                            <div class="mb-4">
+                                <label class="form-label">Fotografía del Competidor (Selfie)</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="bi bi-camera-fill"></i></span>
+                                    <input type="file" name="foto" class="form-control" accept="image/*" capture="environment" required>
+                                </div>
+                                <small class="text-muted d-block mt-1"><i class="bi bi-info-circle me-1"></i>En dispositivos móviles abrirá la cámara directamente.</small>
+                            </div>
+
+                            <!-- Botón Enviar -->
+                            <button type="submit" class="btn btn-submit w-100 mt-2">
+                                <i class="bi bi-check-circle-fill me-2"></i>Confirmar Inscripción
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- MODAL DE CONFIRMACIÓN -->
+    <div class="modal fade" id="modalConfirmacion" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                
+                <div class="modal-header-success">
+                    <div class="success-icon-wrapper">
+                        <i class="bi bi-check-lg"></i>
+                    </div>
+                    <h3 class="font-heading fw-bold m-0 fs-4">¡Inscripción Exitosa!</h3>
+                    <p class="small text-white-50 m-0 mt-1">Guardá este comprobante para la acreditación.</p>
+                </div>
+
+                <div class="modal-body p-4">
+                    <!-- Ticket Resumen -->
+                    <div class="ticket-box mb-4">
+                        <div class="d-flex justify-content-between align-items-center border-bottom pb-2 mb-3">
+                            <span class="ticket-label">N° de Inscripción</span>
+                            <span id="resumenNumero" class="ticket-value text-primary">#MTB-2026-000</span>
+                        </div>
+                        <div class="row g-2 mb-2">
+                            <div class="col-12">
+                                <span class="ticket-label d-block">Competidor</span>
+                                <span id="resumenNombre" class="ticket-value text-uppercase">-</span>
                             </div>
                         </div>
-
-                        <div class="mb-3">
-                            <label class="form-label">Categoría</label>
-                            <select id="categoria_id" name="categoria_id" class="form-select" required disabled>
-                                <option value="">Primero seleccione fecha y género...</option>
-                            </select>
+                        <div class="row g-2 mb-2">
+                            <div class="col-6">
+                                <span class="ticket-label d-block">DNI</span>
+                                <span id="resumenDni" class="ticket-value">-</span>
+                            </div>
+                            <div class="col-6">
+                                <span class="ticket-label d-block">Fecha Registro</span>
+                                <span id="resumenFecha" class="ticket-value">-</span>
+                            </div>
                         </div>
-
-                        <!-- Campo oculto para enviar el circuito -->
-                        <input type="hidden" id="circuito_id" name="circuito_id">
-
-                        <div class="mb-4">
-                            <label class="form-label">Foto / Selfie</label>
-                            <input type="file" name="foto" class="form-control" accept="image/*" capture="environment" required>
-                            <small class="text-muted">* Si está en celular, se abrirá la cámara.</small>
+                        <div class="row g-2 pt-2 border-top">
+                            <div class="col-12">
+                                <span class="ticket-label d-block">Categoría</span>
+                                <span id="resumenCategoria" class="ticket-value text-success">-</span>
+                            </div>
                         </div>
+                    </div>
 
-                        <button type="submit" class="btn btn-success w-100 btn-lg">Finalizar Inscripción</button>
-                    </form>
+                    <button type="button" class="btn btn-dark w-100 py-2.5 fw-bold" style="border-radius: 10px;" data-bs-dismiss="modal">
+                        Aceptar y Cerrar
+                    </button>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-<script>
-    const inputFechaNac = document.getElementById('fecha_nacimiento');
-    const selectGenero = document.getElementById('genero');
-    const selectCategoria = document.getElementById('categoria_id');
-    const inputCircuitoId = document.getElementById('circuito_id');
+  
+    <!-- CONTENEDOR OCULTO PARA PASAR DATOS A JS -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          {% if category == 'success' %}
+            <div id="flash-success-data" 
+                 style="display:none;" 
+                 data-nombre="{{ session.pop('inscrito_nombre', 'COMPETIDOR') }}"
+                 data-dni="{{ session.pop('inscrito_dni', '-') }}"
+                 data-categoria="{{ session.pop('inscrito_categoria', 'General') }}"
+                 data-id="{{ session.pop('inscrito_id', '001') }}">
+            </div>
+          {% endif %}
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
 
-    let listaCategorias = [];
+    <!-- JS Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-    function validarYBuscarCategorias() {
-        const fecha = inputFechaNac.value;
-        const genero = selectGenero.value;
+    <!-- LÓGICA JAVASCRIPT -->
+    <script>
+        const inputFechaNac = document.getElementById('fecha_nacimiento');
+        const selectGenero = document.getElementById('genero');
+        const selectCategoria = document.getElementById('categoria_id');
+        const inputCircuitoId = document.getElementById('circuito_id');
 
-        if (fecha && genero) {
-            fetch('/api/obtener-categorias', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({ fecha_nacimiento: fecha, genero: genero })
-            })
-            .then(response => response.json())
-            .then(data => {
-                listaCategorias = data.categorias;
-                selectCategoria.innerHTML = '<option value="">Seleccione categoría...</option>';
-                selectCategoria.disabled = false;
-                
-                listaCategorias.forEach(cat => {
-                    const opt = document.createElement('option');
-                    opt.value = cat.categoria_id;
-                    // Guardamos el circuito_id directamente en un atributo de la opción para asegurarnos de tenerlo a mano
-                    opt.setAttribute('data-circuito', cat.circuito_id);
-                    opt.textContent = `${cat.categoria_nombre} (${cat.kilometros} KM)`;
-                    selectCategoria.appendChild(opt);
-                });
-            });
-        }
-    }
+        let listaCategorias = [];
 
-    // Actualizar el circuito oculto cuando cambie la categoría
-    selectCategoria.addEventListener('change', function() {
-        const selectedOption = this.options[this.selectedIndex];
-        const circuitoId = selectedOption.getAttribute('data-circuito');
-        inputCircuitoId.value = circuitoId || '';
-    });
+        function validarYBuscarCategorias() {
+            const fecha = inputFechaNac.value;
+            const genero = selectGenero.value;
 
-    inputFechaNac.addEventListener('change', validarYBuscarCategorias);
-    selectGenero.addEventListener('change', validarYBuscarCategorias);
-
-    // Al enviar el formulario, aseguramos que el select no esté disabled y que el circuito_id esté seteado
-    document.getElementById('form-inscripcion').addEventListener('submit', function(e) {
-        selectCategoria.disabled = false;
-        
-        // Verificación de seguridad por si el usuario no cambió el select manualmente
-        if (!inputCircuitoId.value) {
-            const selectedOption = selectCategoria.options[selectCategoria.selectedIndex];
-            const circuitoId = selectedOption.getAttribute('data-circuito');
-            if (circuitoId) {
-                inputCircuitoId.value = circuitoId;
+            if (fecha && genero) {
+                fetch('/api/obtener-categorias', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ fecha_nacimiento: fecha, genero: genero })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    listaCategorias = data.categorias;
+                    selectCategoria.innerHTML = '<option value="">Seleccione categoría...</option>';
+                    selectCategoria.disabled = false;
+                    
+                    listaCategorias.forEach(cat => {
+                        const opt = document.createElement('option');
+                        opt.value = cat.categoria_id;
+                        opt.setAttribute('data-circuito', cat.circuito_id);
+                        opt.textContent = `${cat.categoria_nombre} (${cat.kilometros} KM)`;
+                        selectCategoria.appendChild(opt);
+                    });
+                })
+                .catch(err => console.error("Error obteniendo categorías:", err));
             }
         }
-    });
-</script>
 
+        selectCategoria.addEventListener('change', function() {
+            const selectedOption = this.options[this.selectedIndex];
+            const circuitoId = selectedOption.getAttribute('data-circuito');
+            inputCircuitoId.value = circuitoId || '';
+        });
+
+        if (inputFechaNac) inputFechaNac.addEventListener('change', validarYBuscarCategorias);
+        if (selectGenero) selectGenero.addEventListener('change', validarYBuscarCategorias);
+
+        const formInscripcion = document.getElementById('form-inscripcion');
+        if (formInscripcion) {
+            formInscripcion.addEventListener('submit', function(e) {
+                selectCategoria.disabled = false;
+                if (!inputCircuitoId.value) {
+                    const selectedOption = selectCategoria.options[selectCategoria.selectedIndex];
+                    const circuitoId = selectedOption.getAttribute('data-circuito');
+                    if (circuitoId) {
+                        inputCircuitoId.value = circuitoId;
+                    }
+                }
+            });
+        }
+
+        // --- DETECCIÓN Y DESPLIEGUE DEL MODAL ---
+        document.addEventListener("DOMContentLoaded", function() {
+            const flashData = document.getElementById('flash-success-data');
+            
+            if (flashData) {
+                const nombre = flashData.getAttribute('data-nombre');
+                const dni = flashData.getAttribute('data-dni');
+                const categoria = flashData.getAttribute('data-categoria');
+                const idInscrito = flashData.getAttribute('data-id');
+
+                const elNombre = document.getElementById('resumenNombre');
+                const elDni = document.getElementById('resumenDni');
+                const elCat = document.getElementById('resumenCategoria');
+                const elNum = document.getElementById('resumenNumero');
+                const elFecha = document.getElementById('resumenFecha');
+
+                if (elNombre) elNombre.innerText = nombre;
+                if (elDni) elDni.innerText = dni;
+                if (elCat) elCat.innerText = categoria;
+                if (elNum) elNum.innerText = "#MTB-2026-" + idInscrito;
+                if (elFecha) elFecha.innerText = new Date().toLocaleDateString('es-AR');
+
+                const modalElement = document.getElementById('modalConfirmacion');
+                if (modalElement) {
+                    const modalObj = new bootstrap.Modal(modalElement);
+                    modalObj.show();
+                }
+            }
+        });
+    </script>
 </body>
 </html>
