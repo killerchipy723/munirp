@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administrador de Noticias – Municipalidad de Río Piedras</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="/static/styles/estilo_index.css">
+</head>
+<body>
+
+    <!-- BARRA FLOTANTE DE CONTROL DE ADMINISTRADOR -->
+    <div class="bg-dark text-white py-2 px-3 fixed-top shadow z-3 border-bottom border-warning d-flex justify-content-between align-items-center">
+        <span class="fw-bold"><i class="bi bi-shield-lock-fill text-warning me-2"></i> Panel de Control: Noticias</span>
+        <div>
+            <button class="btn btn-success btn-sm me-2" data-bs-toggle="modal" data-bs-target="#modalNoticia">
+                <i class="bi bi-plus-lg me-1"></i> Publicar Nueva Noticia
+            </button>
+            <a href="/" class="btn btn-outline-light btn-sm" target="_blank">
+                <i class="bi bi-eye me-1"></i> Ver Sitio Web Público
+            </a>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content" style="padding-top: 50px;">
+
+        <section class="py-5" id="noticias">
+            <div class="container">
+                
+                <div class="d-flex justify-content-between align-items-end mb-4 pb-2 border-bottom border-dark-subtle">
+                    <div>
+                        <span class="badge badge-sub text-uppercase tracking-wider mb-2">Vista Administrador</span>
+                        <h1 class="h2 fw-bold m-0">Gestión de Noticias</h1>
+                    </div>
+                </div>
+
+                <!-- NOTICIA DESTACADA -->
+                {% if destacada %}
+                {% set imagen_destacada = destacada['imagen_url'] if (destacada and destacada['imagen_url']) else 'default.jpg' %}
+                <div class="row mb-5">
+                    <div class="col-12">
+                        <div class="card hero-news-card overflow-hidden position-relative">
+                            
+                            <!-- Botones Admin para Destacada -->
+                            <div class="position-absolute top-0 end-0 m-3 z-3 d-flex gap-2">
+                                <button class="btn btn-warning shadow btn-editar-noticia" 
+                                        data-id="{{ destacada.id }}"
+                                        data-titulo="{{ destacada.titulo }}"
+                                        data-subtitulo="{{ destacada.subtitulo or '' }}"
+                                        data-categoria="{{ destacada.categoria }}"
+                                        data-epigrafe="{{ destacada.epigrafe or '' }}"
+                                        data-cuerpo="{{ destacada.cuerpo }}"
+                                        data-destacada="{{ destacada.es_destacada }}"
+                                        data-bs-toggle="modal" 
+                                        data-bs-target="#modalNoticia">
+                                    <i class="bi bi-pencil-fill me-1"></i> Editar Destacada
+                                </button>
+                                <a href="{{ url_for('noticias.eliminar', id=destacada.id) }}" class="btn btn-danger shadow" onclick="return confirm('¿Eliminar esta noticia destacada?')">
+                                    <i class="bi bi-trash-fill"></i>
+                                </a>
+                            </div>
+
+                            <div class="row g-0 align-items-stretch">
+                                <div class="col-lg-7 hero-news-img-container position-relative overflow-hidden" style="min-height: 350px;">
+                                    <img src="{{ url_for('static', filename='uploads/' ~ imagen_destacada) }}" class="w-100 h-100 object-fit-cover position-absolute top-0 start-0" alt="{{ destacada.titulo }}">
+                                    <span class="badge badge-category bg-success position-absolute top-0 start-0 m-3 z-1">{{ destacada.categoria }}</span>
+                                </div>
+                                <div class="col-lg-5 d-flex align-items-center">
+                                    <div class="card-body p-4 p-xl-5">
+                                        <div class="text-muted small mb-2">
+                                            <i class="bi bi-clock me-1"></i> {{ destacada.fecha_creacion.strftime('%d/%m/%Y') if destacada.fecha_creacion }}
+                                        </div>
+                                        <h2 class="card-title fw-bold h3 mb-3">{{ destacada.titulo }}</h2>
+                                        <p class="card-text text-muted mb-4">{{ destacada.subtitulo or (destacada.cuerpo[:150] ~ '...') }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- GRID DE NOTICIAS RECIENTES -->
+                <div class="row g-4">
+                    {% for noticia in recientes %}
+                    {% set img_noticia = noticia['imagen_url'] if (noticia and noticia['imagen_url']) else 'default.jpg' %}
+                    <div class="col-12 col-md-6 col-lg-4">
+                        <article class="card news-card h-100 position-relative">
+                            
+                            <!-- Botones Admin para Noticia Reciente -->
+                            <div class="position-absolute top-0 end-0 m-2 z-3 d-flex gap-1">
+                                <button class="btn btn-warning btn-sm shadow btn-editar-noticia" 
+                                        data-id="{{ noticia.id }}"
+                                        data-titulo="{{ noticia.titulo }}"
+                                        data-subtitulo="{{ noticia.subtitulo or '' }}"
+                                        data-categoria="{{ noticia.categoria }}"
+                                        data-epigrafe="{{ noticia.epigrafe or '' }}"
+                                        data-cuerpo="{{ noticia.cuerpo }}"
+                                        data-destacada="{{ noticia.es_destacada }}"
+                                        data-bs-toggle="modal" 
+                                        data-bs-target="#modalNoticia">
+                                    <i class="bi bi-pencil-fill"></i>
+                                </button>
+                                <a href="{{ url_for('noticias.eliminar', id=noticia.id) }}" class="btn btn-danger btn-sm shadow" onclick="return confirm('¿Eliminar esta noticia?')">
+                                    <i class="bi bi-trash-fill"></i>
+                                </a>
+                            </div>
+
+                            <div class="card-img-top-wrapper position-relative" style="height: 220px; overflow: hidden;">
+                                <span class="badge badge-category bg-success position-absolute top-0 start-0 m-3 z-1">{{ noticia.categoria }}</span>
+                                <img src="{{ url_for('static', filename='uploads/' ~ img_noticia) }}" class="w-100 h-100 object-fit-cover" alt="{{ noticia.titulo }}">
+                            </div>
+                            
+                            <div class="card-body d-flex flex-column">
+                                <div class="text-muted small mb-2"><i class="bi bi-calendar-event me-1"></i> {{ noticia.fecha_creacion.strftime('%d/%m/%Y') if noticia.fecha_creacion }}</div>
+                                <h3 class="h5 card-title fw-bold mb-2">{{ noticia.titulo }}</h3>
+                                <p class="card-text text-muted small flex-grow-1">{{ noticia.subtitulo or (noticia.cuerpo[:100] ~ '...') }}</p>
+                            </div>
+                        </article>
+                    </div>
+                    {% else %}
+                    <div class="col-12 text-center py-5">
+                        <p class="text-muted">Aún no hay noticias creadas. Haz clic en el botón de arriba para agregar la primera.</p>
+                    </div>
+                    {% endfor %}
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- MODAL POPUP PARA CREAR / EDITAR NOTICIA -->
+    <div class="modal fade" id="modalNoticia" tabindex="-1" aria-labelledby="modalNoticiaLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content bg-dark text-white border-secondary">
+                <div class="modal-header border-secondary">
+                    <h5 class="modal-title" id="modalNoticiaLabel">Nueva Noticia</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                
+                <form id="formNoticia" action="{{ url_for('noticias.crear_noticia') }}" method="POST" enctype="multipart/form-data">
+                    <div class="modal-body">
+                        <input type="hidden" id="noticia_id" name="id">
+
+                        <div class="mb-3">
+                            <label for="titulo" class="form-label">Título</label>
+                            <input type="text" class="form-control bg-secondary text-white border-0" id="titulo" name="titulo" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="subtitulo" class="form-label">Subtítulo / Copete</label>
+                            <input type="text" class="form-control bg-secondary text-white border-0" id="subtitulo" name="subtitulo">
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="categoria" class="form-label">Categoría</label>
+                                <select class="form-select bg-secondary text-white border-0" id="categoria" name="categoria">
+                                    <option value="General">General</option>
+                                    <option value="Deportes & Eventos">Deportes & Eventos</option>
+                                    <option value="Comunidad">Comunidad</option>
+                                    <option value="Salud">Salud</option>
+                                    <option value="Obras Públicas">Obras Públicas</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 d-flex align-items-end">
+                                <div class="form-check form-switch mb-2">
+                                    <input class="form-check-input" type="checkbox" id="es_destacada" name="es_destacada" value="1">
+                                    <label class="form-check-label" for="es_destacada">¿Es Noticia Destacada?</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="imagen" class="form-label">Subir Foto / Imagen</label>
+                            <input type="file" class="form-control bg-secondary text-white border-0" id="imagen" name="imagen" accept="image/*">
+                            <small class="text-muted d-block mt-1">Formatos soportados: JPG, PNG, WEBP, GIF, JFIF.</small>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="epigrafe" class="form-label">Epígrafe de la Imagen</label>
+                            <input type="text" class="form-control bg-secondary text-white border-0" id="epigrafe" name="epigrafe" placeholder="Pie de foto">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="cuerpo" class="form-label">Cuerpo de la Noticia</label>
+                            <textarea class="form-control bg-secondary text-white border-0" id="cuerpo" name="cuerpo" rows="6" required></textarea>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer border-secondary">
+                        <button type="button" class="btn btn-outline-light" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-success">Guardar Cambios</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- SCRIPT DE INTERACCIÓN AUTO-COMPLETADO -->
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        
+        // Escuchar clics en todos los botones con clase .btn-editar-noticia
+        document.querySelectorAll('.btn-editar-noticia').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                document.getElementById('modalNoticiaLabel').innerText = 'Editar Noticia';
+                document.getElementById('formNoticia').action = "{{ url_for('noticias.editar_noticia') }}";
+                
+                document.getElementById('noticia_id').value = this.dataset.id;
+                document.getElementById('titulo').value = this.dataset.titulo || '';
+                document.getElementById('subtitulo').value = this.dataset.subtitulo || '';
+                document.getElementById('categoria').value = this.dataset.categoria || 'General';
+                document.getElementById('epigrafe').value = this.dataset.epigrafe || '';
+                document.getElementById('cuerpo').value = this.dataset.cuerpo || '';
+                document.getElementById('es_destacada').checked = (this.dataset.destacada == '1' || this.dataset.destacada == 'True');
+            });
+        });
+
+        // Al cerrar/ocultar el modal, vaciar campos y dejar listo para "Crear Noticia"
+        document.getElementById('modalNoticia').addEventListener('hidden.bs.modal', function () {
+            document.getElementById('modalNoticiaLabel').innerText = 'Publicar Nueva Noticia';
+            document.getElementById('formNoticia').action = "{{ url_for('noticias.crear_noticia') }}";
+            document.getElementById('formNoticia').reset();
+            document.getElementById('noticia_id').value = '';
+        });
+    });
+    </script>
+</body>
+</html>

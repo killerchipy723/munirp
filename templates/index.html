@@ -1,344 +1,525 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Municipalidad de Río Piedras – Portal de Noticias & Servicios</title>
 
     <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
 
     <!-- Bootstrap 5 CSS & Icons -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
-    
-    <!-- Estilos Personalizados -->
-    <link rel="stylesheet" href="/static/styles/estilo_index.css">
-</head>
-<body>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css"
+    />
 
+    <!-- Estilos Personalizados -->
+    <link rel="stylesheet" href="/static/styles/estilo_index.css" />
+  </head>
+  <body>
     <!-- NAVEGACIÓN PRINCIPAL -->
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top custom-navbar">
-        <div class="container">
-            <a class="navbar-brand d-flex align-items-center gap-2" href="#">
-                <i class="bi bi-building-fill text-accent fs-4"></i>
-                <div class="d-flex flex-column">
-                    <span class="fw-bold brand-title">MUNICIPALIDAD</span>
-                    <span class="brand-subtitle">DE RÍO PIEDRAS</span>
-                </div>
-            </a>
+      <div class="container">
+        <a class="navbar-brand d-flex align-items-center gap-2" href="#">
+          <i class="bi bi-building-fill text-accent fs-4"></i>
+          <div class="d-flex flex-column">
+            <span class="fw-bold brand-title">MUNICIPALIDAD</span>
+            <span class="brand-subtitle">DE RÍO PIEDRAS</span>
+          </div>
+        </a>
 
-            <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#menuNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+        <button
+          class="navbar-toggler border-0 shadow-none"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#menuNav"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
 
-            <div class="collapse navbar-collapse" id="menuNav">
-                <ul class="navbar-nav ms-auto align-items-center gap-1">
-                    <li class="nav-item"><a class="nav-link active" href="#noticias">Noticias</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#deportes">Deportes</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#tramites">Trámites</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Gobierno</a></li>
-                    <li class="nav-item ms-lg-2">
-                        <a class="btn btn-radio-live d-flex align-items-center gap-2" href="/radio">
-                            <span class="pulse-icon"></span>
-                            <i class="bi bi-radio"></i>
-                            <span>FM RÍO 104.9</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
+        <div class="collapse navbar-collapse" id="menuNav">
+          <ul class="navbar-nav ms-auto align-items-center gap-1">
+            <li class="nav-item">
+              <a class="nav-link active" href="#noticias">Noticias</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#deportes">Deportes</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#tramites">Trámites</a>
+            </li>
+            <li class="nav-item"><a class="nav-link" href="#">Gobierno</a></li>
+            <li class="nav-item ms-lg-2">
+              <a
+                class="btn btn-radio-live d-flex align-items-center gap-2"
+                href="/radio"
+                target="_blank"
+              >
+                <span class="pulse-icon"></span>
+                <i class="bi bi-radio"></i>
+                <span>FM RÍO 104.9</span>
+              </a>
+            </li>
+          </ul>
         </div>
+      </div>
     </nav>
 
     <!-- MAIN CONTENT -->
     <main class="main-content">
-
-        <!-- SECCIÓN 1: PORTAL DE NOTICIAS (PANTALLA PRINCIPAL) -->
-        <section class="py-5" id="noticias">
-            <div class="container">
-                
-                <!-- Encabezado de Sección -->
-                <div class="d-flex justify-content-between align-items-end mb-4 pb-2 border-bottom border-dark-subtle">
-                    <div>
-                        <span class="badge badge-sub text-uppercase tracking-wider mb-2">Portal Informativo</span>
-                        <h1 class="h2 fw-bold m-0">Noticias de la Ciudad</h1>
-                    </div>
-                    <div class="d-none d-md-block">
-                        <span class="text-muted small"><i class="bi bi-calendar3 me-1"></i> Actualizado diariamente</span>
-                    </div>
-                </div>
-
-                <!-- Noticia Destacada (Hero Feature) -->
-                <div class="row mb-5">
-                    <div class="col-12">
-                        <div class="card hero-news-card overflow-hidden">
-                            <div class="row g-0 align-items-stretch">
-                                <div class="col-lg-7 hero-news-img-container">
-                                    <div class="hero-news-img" style="background-image: url('A_promotional_digital_graphic_design_for_FM_Río,_a.png');"></div>
-                                    <span class="badge badge-category bg-primary">Obras Públicas</span>
-                                </div>
-                                <div class="col-lg-5 d-flex align-items-center">
-                                    <div class="card-body p-4 p-xl-5">
-                                        <div class="text-muted small mb-2">
-                                            <i class="bi bi-clock me-1"></i> Hace 2 horas
-                                        </div>
-                                        <h2 class="card-title fw-bold h3 mb-3">Avanzan las obras de pavimentación e iluminación LED en el centro municipal</h2>
-                                        <p class="card-text text-muted mb-4">El plan de infraestructura abarca más de 15 cuadras con el objetivo de mejorar la transitabilidad, la seguridad vial y el acceso para todos los vecinos.</p>
-                                        <a href="#" class="btn btn-outline-accent">Leer Noticia Completa <i class="bi bi-arrow-right ms-1"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Grid de Noticias Recientes -->
-                <div class="row g-4">
-                    <!-- Noticia 1 -->
-                    <div class="col-12 col-md-6 col-lg-4">
-                        <article class="card news-card h-100">
-                            <div class="card-img-top-wrapper">
-                                <span class="badge badge-category bg-success">Comunidad</span>
-                                <div class="card-img-placeholder bg-dark-subtle d-flex align-items-center justify-content-center">
-                                    <i class="bi bi-people fs-1 text-muted"></i>
-                                </div>
-                            </div>
-                            <div class="card-body d-flex flex-column">
-                                <div class="text-muted small mb-2"><i class="bi bi-calendar-event me-1"></i> Hoy</div>
-                                <h3 class="h5 card-title fw-bold mb-2">Nuevos talleres culturales gratuitos para todas las edades</h3>
-                                <p class="card-text text-muted small flex-grow-1">Se abren las inscripciones para música, teatro, pintura y arte digital en el Centro Cultural Municipal.</p>
-                                <a href="#" class="read-more-link mt-3">Leer más <i class="bi bi-chevron-right"></i></a>
-                            </div>
-                        </article>
-                    </div>
-
-                    <!-- Noticia 2 -->
-                    <div class="col-12 col-md-6 col-lg-4">
-                        <article class="card news-card h-100">
-                            <div class="card-img-top-wrapper">
-                                <span class="badge badge-category bg-warning text-dark">Salud</span>
-                                <div class="card-img-placeholder bg-dark-subtle d-flex align-items-center justify-content-center">
-                                    <i class="bi bi-heart-pulse fs-1 text-muted"></i>
-                                </div>
-                            </div>
-                            <div class="card-body d-flex flex-column">
-                                <div class="text-muted small mb-2"><i class="bi bi-calendar-event me-1"></i> Ayer</div>
-                                <h3 class="h5 card-title fw-bold mb-2">Campaña de vacunación y atención médica preventiva</h3>
-                                <p class="card-text text-muted small flex-grow-1">El camión sanitario estará realizando controles gratuitos en la plaza principal de 08:00 a 13:00 hs.</p>
-                                <a href="#" class="read-more-link mt-3">Leer más <i class="bi bi-chevron-right"></i></a>
-                            </div>
-                        </article>
-                    </div>
-
-                    <!-- Noticia 3 -->
-                    <div class="col-12 col-md-6 col-lg-4">
-                        <article class="card news-card h-100">
-                            <div class="card-img-top-wrapper">
-                                <span class="badge badge-category bg-info text-dark">Medio Ambiente</span>
-                                <div class="card-img-placeholder bg-dark-subtle d-flex align-items-center justify-content-center">
-                                    <i class="bi bi-tree fs-1 text-muted"></i>
-                                </div>
-                            </div>
-                            <div class="card-body d-flex flex-column">
-                                <div class="text-muted small mb-2"><i class="bi bi-calendar-event me-1"></i> Hace 2 días</div>
-                                <h3 class="h5 card-title fw-bold mb-2">Jornada de arbolado nativo y recolección diferenciada</h3>
-                                <p class="card-text text-muted small flex-grow-1">Sumate al programa verde para la reforestación de espacios públicos y separación de residuos en origen.</p>
-                                <a href="#" class="read-more-link mt-3">Leer más <i class="bi bi-chevron-right"></i></a>
-                            </div>
-                        </article>
-                    </div>
-                </div>
-
+      <!-- SECCIÓN 1: PORTAL DE NOTICIAS -->
+      <section class="py-5" id="noticias">
+        <div class="container">
+          <!-- Encabezado de Sección -->
+          <div
+            class="d-flex justify-content-between align-items-end mb-4 pb-2 border-bottom border-dark-subtle"
+          >
+            <div>
+              <span class="badge badge-sub text-uppercase tracking-wider mb-2"
+                >Portal Informativo</span
+              >
+              <h1 class="h2 fw-bold m-0">Noticias de la Ciudad</h1>
             </div>
-        </section>
-
-        <!-- BANNER INTERACTIVO RADIO EN VIVO -->
-        <section class="radio-banner py-4 my-4">
-            <div class="container">
-                <div class="radio-banner-wrapper p-4 p-lg-5 rounded-4 d-flex flex-column flex-lg-row align-items-center justify-content-between gap-4">
-                    <div class="d-flex align-items-center gap-4 text-center text-lg-start flex-column flex-sm-row">
-                        <div class="radio-icon-box">
-                            <i class="bi bi-broadcast fs-1"></i>
-                        </div>
-                        <div>
-                            <span class="badge bg-danger text-uppercase tracking-wider mb-2"><i class="bi bi-record-fill me-1 blink"></i> En Vivo Ahora</span>
-                            <h3 class="fw-bold mb-1">FM RÍO 104.9 MHz</h3>
-                            <p class="text-muted mb-0">La voz de Río Piedras. Música, noticias e información al instante.</p>
-                        </div>
-                    </div>
-                    <a href="/radio" class="btn btn-light btn-lg px-4 fw-semibold text-nowrap">
-                        <i class="bi bi-play-fill fs-4 align-middle me-1"></i> Sintonizar Radio
-                    </a>
-                </div>
+            <div class="d-none d-md-block">
+              <span class="text-muted small"
+                ><i class="bi bi-calendar3 me-1"></i> Actualizado diariamente</span
+              >
             </div>
-        </section>
+          </div>
 
-        <!-- SECCIÓN 2: DEPORTES -->
-        <section class="py-5" id="deportes">
-            <div class="container">
-                <div class="d-flex justify-content-between align-items-end mb-4 pb-2 border-bottom border-dark-subtle">
-                    <div>
-                        <span class="badge badge-sub text-uppercase tracking-wider mb-2">Deporte & Salud</span>
-                        <h2 class="h2 fw-bold m-0">Deportes Municipal</h2>
+          <!-- NOTICIA DESTACADA -->
+          {% if destacada %}
+          {% set img_nombre = destacada.get('imagen_url') or destacada.get('imagen') or destacada.get('foto') or destacada.get('url_imagen') %}
+          {% set img_destacada = img_nombre.split('/')[-1] if img_nombre else 'default.jpg' %}
+
+          <div class="row mb-5">
+            <div class="col-12">
+              <div class="card hero-news-card overflow-hidden">
+                <div class="row g-0 align-items-stretch">
+                  <div
+                    class="col-lg-7 hero-news-img-container position-relative overflow-hidden"
+                    style="min-height: 350px"
+                  >
+                    <img
+                      src="{{ url_for('static', filename='uploads/' + img_destacada) }}"
+                      alt="{{ destacada['titulo'] }}"
+                      class="w-100 h-100 object-fit-cover position-absolute top-0 start-0"
+                    />
+
+                    <span
+                      class="badge badge-category bg-success position-absolute top-0 start-0 m-3 z-1"
+                    >
+                      {{ destacada.get('categoria', 'General') }}
+                    </span>
+                  </div>
+                  <div class="col-lg-5 d-flex align-items-center">
+                    <div class="card-body p-4 p-xl-5">
+                      <div class="text-muted small mb-2">
+                        <i class="bi bi-clock me-1"></i> Publicado el {{ destacada['fecha_creacion'].strftime('%d/%m/%Y') if destacada.get('fecha_creacion') }}
+                      </div>
+                      <h2 class="card-title fw-bold h3 mb-3">
+                        {{ destacada['titulo'] }}
+                      </h2>
+                      <p class="card-text text-muted mb-4">
+                        {{ destacada.get('subtitulo') or (destacada.get('cuerpo', '')[:150] ~ '...') }}
+                      </p>
+                      <button
+                        type="button"
+                        class="btn btn-outline-accent"
+                        data-bs-toggle="modal"
+                        data-bs-target="#modalNoticiaDestacada"
+                      >
+                        Leer nota completa <i class="bi bi-arrow-right ms-1"></i>
+                      </button>
                     </div>
-                    <a href="#" class="btn btn-sm btn-outline-light d-none d-md-inline-block">Ver todos los torneos</a>
+                  </div>
                 </div>
-
-                <div class="row g-4">
-                    <!-- Deporte 1 -->
-                    <div class="col-12 col-md-6 col-lg-4">
-                        <div class="sports-card p-4 rounded-4 h-100">
-                            <div class="d-flex align-items-center justify-content-between mb-3">
-                                <span class="sports-tag"><i class="bi bi-trophy me-1"></i> Torneos</span>
-                                <i class="bi bi-dribbble fs-3 text-accent"></i>
-                            </div>
-                            <h4 class="fw-bold mb-2">Liga Municipal de Fútbol y Básquet</h4>
-                            <p class="text-muted small mb-4">Apertura de inscripciones para el torneo interbarrial. Categorías infantiles, juveniles y seniors.</p>
-                            <a href="#" class="btn btn-sm btn-outline-accent w-100">Ver fixture e inscripciones</a>
-                        </div>
-                    </div>
-
-                    <!-- Deporte 2 -->
-                    <div class="col-12 col-md-6 col-lg-4">
-                        <div class="sports-card p-4 rounded-4 h-100">
-                            <div class="d-flex align-items-center justify-content-between mb-3">
-                                <span class="sports-tag"><i class="bi bi-person-run me-1"></i> Escuelas</span>
-                                <i class="bi bi-activity fs-3 text-accent"></i>
-                            </div>
-                            <h4 class="fw-bold mb-2">Escuelas Deportivas Gratuitas</h4>
-                            <p class="text-muted small mb-4">Iniciación deportiva en atletismo, natación, vóley y patín en el Complejo Polideportivo Municipal.</p>
-                            <a href="#" class="btn btn-sm btn-outline-accent w-100">Consultar horarios</a>
-                        </div>
-                    </div>
-
-                    <!-- Deporte 3 -->
-                    <div class="col-12 col-md-6 col-lg-4">
-                        <div class="sports-card p-4 rounded-4 h-100">
-                            <div class="d-flex align-items-center justify-content-between mb-3">
-                                <span class="sports-tag"><i class="bi bi-heart-pulse me-1"></i> Bienestar</span>
-                                <i class="bi bi-person-walking fs-3 text-accent"></i>
-                            </div>
-                            <h4 class="fw-bold mb-2">Vida Saludable y Gimnasia al Aire Libre</h4>
-                            <p class="text-muted small mb-4">Clases guiadas de zumba, yoga y caminatas de salud en los parques principales del municipio.</p>
-                            <a href="#" class="btn btn-sm btn-outline-accent w-100">Ver puntos de encuentro</a>
-                        </div>
-                    </div>
-                </div>
+              </div>
             </div>
-        </section>
+          </div>
 
-        <!-- SECCIÓN 3: TRÁMITES Y SERVICIOS -->
-        <section class="py-5 section-tramites" id="tramites">
-            <div class="container">
-                <div class="text-center mb-5">
-                    <span class="badge badge-sub text-uppercase tracking-wider mb-2">Atención al Vecino</span>
-                    <h2 class="h2 fw-bold">Trámites y Gestiones Online</h2>
-                    <p class="text-muted">Resolvé tus consultas y trámites municipales de forma rápida y sencilla.</p>
+          <!-- MODAL EXPANDIBLE NOTICIA DESTACADA -->
+          <div class="modal fade" id="modalNoticiaDestacada" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+              <div class="modal-content text-dark">
+                <div class="modal-header">
+                  <h5 class="modal-title fw-bold">{{ destacada['titulo'] }}</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-
-                <div class="row g-4">
-                    <!-- Trámite 1 -->
-                    <div class="col-6 col-md-4 col-lg-3">
-                        <a href="#" class="text-decoration-none">
-                            <div class="tramite-card text-center p-4 rounded-4 h-100">
-                                <div class="tramite-icon mb-3">
-                                    <i class="bi bi-card-heading"></i>
-                                </div>
-                                <h5 class="fw-bold fs-6 text-white mb-1">Licencia de Conducir</h5>
-                                <span class="text-muted small">Turnos y requisitos</span>
-                            </div>
-                        </a>
-                    </div>
-
-                    <!-- Trámite 2 -->
-                    <div class="col-6 col-md-4 col-lg-3">
-                        <a href="#" class="text-decoration-none">
-                            <div class="tramite-card text-center p-4 rounded-4 h-100">
-                                <div class="tramite-icon mb-3">
-                                    <i class="bi bi-receipt"></i>
-                                </div>
-                                <h5 class="fw-bold fs-6 text-white mb-1">Pago de Tasas</h5>
-                                <span class="text-muted small">Boletas e impuestos</span>
-                            </div>
-                        </a>
-                    </div>
-
-                    <!-- Trámite 3 -->
-                    <div class="col-6 col-md-4 col-lg-3">
-                        <a href="#" class="text-decoration-none">
-                            <div class="tramite-card text-center p-4 rounded-4 h-100">
-                                <div class="tramite-icon mb-3">
-                                    <i class="bi bi-exclamation-triangle"></i>
-                                </div>
-                                <h5 class="fw-bold fs-6 text-white mb-1">Reclamos Urbanos</h5>
-                                <span class="text-muted small">Alumbrado, baches, bacheo</span>
-                            </div>
-                        </a>
-                    </div>
-
-                    <!-- Trámite 4 -->
-                    <div class="col-6 col-md-4 col-lg-3">
-                        <a href="#" class="text-decoration-none">
-                            <div class="tramite-card text-center p-4 rounded-4 h-100">
-                                <div class="tramite-icon mb-3">
-                                    <i class="bi bi-shop"></i>
-                                </div>
-                                <h5 class="fw-bold fs-6 text-white mb-1">Habilitación Comercial</h5>
-                                <span class="text-muted small">Guía para emprendedores</span>
-                            </div>
-                        </a>
-                    </div>
+                <div class="modal-body">
+                  <div class="mb-3 text-center">
+                    <img
+                      src="{{ url_for('static', filename='uploads/' + img_destacada) }}"
+                      alt="{{ destacada['titulo'] }}"
+                      class="img-fluid rounded"
+                      style="max-height: 400px; object-fit: cover; width: 100%;"
+                    />
+                  </div>
+                  <p class="text-muted small mb-3">
+                    <i class="bi bi-calendar-event me-1"></i> Fecha: {{ destacada['fecha_creacion'].strftime('%d/%m/%Y') if destacada.get('fecha_creacion') }}
+                    {% if destacada.get('categoria') %}
+                      | <span class="badge bg-secondary">{{ destacada['categoria'] }}</span>
+                    {% endif %}
+                  </p>
+                  {% if destacada.get('subtitulo') %}
+                    <h6 class="fw-semibold text-secondary mb-3">{{ destacada['subtitulo'] }}</h6>
+                  {% endif %}
+                  <hr>
+                  <div class="lh-lg" style="white-space: pre-line;">
+                    {{ destacada.get('cuerpo', '') }}
+                  </div>
                 </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+              </div>
             </div>
-        </section>
+          </div>
+          {% endif %}
 
+          <!-- GRID DE NOTICIAS RECIENTES -->
+          <div class="row g-4">
+            {% for noticia in recientes %}
+            {% set img_reciente_nombre = noticia.get('imagen_url') or noticia.get('imagen') or noticia.get('foto') or noticia.get('url_imagen') %}
+            {% set img_noticia = img_reciente_nombre.split('/')[-1] if img_reciente_nombre else 'default.jpg' %}
+            
+            <div class="col-12 col-md-6 col-lg-4">
+              <article class="card news-card h-100">
+                <div
+                  class="card-img-top-wrapper position-relative"
+                  style="height: 220px; overflow: hidden"
+                >
+                  <span
+                    class="badge badge-category bg-success position-absolute top-0 start-0 m-3 z-1"
+                    >{{ noticia.get('categoria', 'General') }}</span
+                  >
+                  <img
+                    src="{{ url_for('static', filename='uploads/' + img_noticia) }}"
+                    class="w-100 h-100 object-fit-cover"
+                    alt="{{ noticia['titulo'] }}"
+                  />
+                </div>
+
+                <div class="card-body d-flex flex-column">
+                  <div class="text-muted small mb-2">
+                    <i class="bi bi-calendar-event me-1"></i> {{
+                    noticia['fecha_creacion'].strftime('%d/%m/%Y') if noticia.get('fecha_creacion') }}
+                  </div>
+                  <h3 class="h5 card-title fw-bold mb-2">
+                    {{ noticia['titulo'] }}
+                  </h3>
+                  <p class="card-text text-muted small flex-grow-1">
+                    {{ noticia.get('subtitulo') or (noticia.get('cuerpo', '')[:100] ~ '...') }}
+                  </p>
+                  <button
+                    type="button"
+                    class="btn btn-link read-more-link mt-3 p-0 text-start text-decoration-none"
+                    data-bs-toggle="modal"
+                    data-bs-target="#modalNoticiaReciente{{ noticia['id'] if noticia.get('id') else loop.index }}"
+                  >
+                    Leer más <i class="bi bi-chevron-right"></i>
+                  </button>
+                </div>
+              </article>
+            </div>
+
+            <!-- MODAL PARA CADA NOTICIA RECIENTE -->
+            <div class="modal fade" id="modalNoticiaReciente{{ noticia['id'] if noticia.get('id') else loop.index }}" tabindex="-1" aria-hidden="true">
+              <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content text-dark">
+                  <div class="modal-header">
+                    <h5 class="modal-title fw-bold">{{ noticia['titulo'] }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <div class="mb-3 text-center">
+                      <img
+                        src="{{ url_for('static', filename='uploads/' + img_noticia) }}"
+                        alt="{{ noticia['titulo'] }}"
+                        class="img-fluid rounded"
+                        style="max-height: 400px; object-fit: cover; width: 100%;"
+                      />
+                    </div>
+                    <p class="text-muted small mb-3">
+                      <i class="bi bi-calendar-event me-1"></i> Fecha: {{ noticia['fecha_creacion'].strftime('%d/%m/%Y') if noticia.get('fecha_creacion') }}
+                      {% if noticia.get('categoria') %}
+                        | <span class="badge bg-secondary">{{ noticia['categoria'] }}</span>
+                      {% endif %}
+                    </p>
+                    {% if noticia.get('subtitulo') %}
+                      <h6 class="fw-semibold text-secondary mb-3">{{ noticia['subtitulo'] }}</h6>
+                    {% endif %}
+                    <hr>
+                    <div class="lh-lg" style="white-space: pre-line;">
+                      {{ noticia.get('cuerpo', '') }}
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {% else %}
+            <div class="col-12 text-center py-5">
+              <p class="text-muted">Aún no hay noticias publicadas.</p>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </section>
+
+      <!-- BANNER INTERACTIVO RADIO EN VIVO -->
+      <section class="radio-banner py-4 my-4">
+        <div class="container">
+          <div
+            class="radio-banner-wrapper p-4 p-lg-5 rounded-4 d-flex flex-column flex-lg-row align-items-center justify-content-between gap-4"
+          >
+            <div
+              class="d-flex align-items-center gap-4 text-center text-lg-start flex-column flex-sm-row"
+            >
+              <div class="radio-icon-box">
+                <i class="bi bi-broadcast fs-1"></i>
+              </div>
+              <div>
+                <span class="badge bg-danger text-uppercase tracking-wider mb-2"
+                  ><i class="bi bi-record-fill me-1 blink"></i> En Vivo Ahora</span
+                >
+                <h3 class="fw-bold mb-1">FM RÍO 104.9 MHz</h3>
+                <p class="text-muted mb-0">
+                  La voz de Río Piedras. Música, noticias e información al instante.
+                </p>
+              </div>
+            </div>
+            <a
+              href="/radio"
+              class="btn btn-light btn-lg px-4 fw-semibold text-nowrap"
+            >
+              <i class="bi bi-play-fill fs-4 align-middle me-1"></i> Sintonizar Radio
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECCIÓN 2: DEPORTES -->
+      <section class="py-5" id="deportes">
+        <div class="container">
+          <div
+            class="d-flex justify-content-between align-items-end mb-4 pb-2 border-bottom border-dark-subtle"
+          >
+            <div>
+              <span class="badge badge-sub text-uppercase tracking-wider mb-2"
+                >Deporte & Salud</span
+              >
+              <h2 class="h2 fw-bold m-0">Deportes Municipal</h2>
+            </div>
+            <a
+              href="#"
+              class="btn btn-sm btn-outline-light d-none d-md-inline-block"
+              >Ver todos los torneos</a
+            >
+          </div>
+
+          <div class="row g-4">
+            <div class="col-12 col-md-6 col-lg-4">
+              <div class="sports-card p-4 rounded-4 h-100">
+                <div
+                  class="d-flex align-items-center justify-content-between mb-3"
+                >
+                  <span class="sports-tag"
+                    ><i class="bi bi-trophy me-1"></i> Torneos</span
+                  >
+                  <i class="bi bi-dribbble fs-3 text-accent"></i>
+                </div>
+                <h4 class="fw-bold mb-2">Liga Municipal de Fútbol y Básquet</h4>
+                <p class="text-muted small mb-4">
+                  Apertura de inscripciones para el torneo interbarrial.
+                  Categorías infantiles, juveniles y seniors.
+                </p>
+                <a href="#" class="btn btn-sm btn-outline-accent w-100"
+                  >Ver fixture e inscripciones</a
+                >
+              </div>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-4">
+              <div class="sports-card p-4 rounded-4 h-100">
+                <div
+                  class="d-flex align-items-center justify-content-between mb-3"
+                >
+                  <span class="sports-tag"
+                    ><i class="bi bi-person-run me-1"></i> Escuelas</span
+                  >
+                  <i class="bi bi-activity fs-3 text-accent"></i>
+                </div>
+                <h4 class="fw-bold mb-2">Escuelas Deportivas Gratuitas</h4>
+                <p class="text-muted small mb-4">
+                  Iniciación deportiva en atletismo, natación, vóley y patín en
+                  el Complejo Polideportivo Municipal.
+                </p>
+                <a href="#" class="btn btn-sm btn-outline-accent w-100"
+                  >Consultar horarios</a
+                >
+              </div>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-4">
+              <div class="sports-card p-4 rounded-4 h-100">
+                <div
+                  class="d-flex align-items-center justify-content-between mb-3"
+                >
+                  <span class="sports-tag"
+                    ><i class="bi bi-heart-pulse me-1"></i> Bienestar</span
+                  >
+                  <i class="bi bi-person-walking fs-3 text-accent"></i>
+                </div>
+                <h4 class="fw-bold mb-2">
+                  Vida Saludable y Gimnasia al Aire Libre
+                </h4>
+                <p class="text-muted small mb-4">
+                  Clases guiadas de zumba, yoga y caminatas de salud en los
+                  parques principales del municipio.
+                </p>
+                <a href="#" class="btn btn-sm btn-outline-accent w-100"
+                  >Ver puntos de encuentro</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECCIÓN 3: TRÁMITES -->
+      <section class="py-5 section-tramites" id="tramites">
+        <div class="container">
+          <div class="text-center mb-5">
+            <span class="badge badge-sub text-uppercase tracking-wider mb-2"
+              >Atención al Vecino</span
+            >
+            <h2 class="h2 fw-bold">Trámites y Gestiones Online</h2>
+            <p class="text-muted">
+              Resolvé tus consultas y trámites municipales de forma rápida y
+              sencilla.
+            </p>
+          </div>
+
+          <div class="row g-4">
+            <div class="col-6 col-md-4 col-lg-3">
+              <a href="#" class="text-decoration-none">
+                <div class="tramite-card text-center p-4 rounded-4 h-100">
+                  <div class="tramite-icon mb-3">
+                    <i class="bi bi-card-heading"></i>
+                  </div>
+                  <h5 class="fw-bold fs-6 text-white mb-1">
+                    Licencia de Conducir
+                  </h5>
+                  <span class="text-muted small">Turnos y requisitos</span>
+                </div>
+              </a>
+            </div>
+
+            <div class="col-6 col-md-4 col-lg-3">
+              <a href="#" class="text-decoration-none">
+                <div class="tramite-card text-center p-4 rounded-4 h-100">
+                  <div class="tramite-icon mb-3">
+                    <i class="bi bi-receipt"></i>
+                  </div>
+                  <h5 class="fw-bold fs-6 text-white mb-1">Pago de Tasas</h5>
+                  <span class="text-muted small">Boletas e impuestos</span>
+                </div>
+              </a>
+            </div>
+
+            <div class="col-6 col-md-4 col-lg-3">
+              <a href="#" class="text-decoration-none">
+                <div class="tramite-card text-center p-4 rounded-4 h-100">
+                  <div class="tramite-icon mb-3">
+                    <i class="bi bi-exclamation-triangle"></i>
+                  </div>
+                  <h5 class="fw-bold fs-6 text-white mb-1">Reclamos Urbanos</h5>
+                  <span class="text-muted small">Alumbrado, baches</span>
+                </div>
+              </a>
+            </div>
+
+            <div class="col-6 col-md-4 col-lg-3">
+              <a href="#" class="text-decoration-none">
+                <div class="tramite-card text-center p-4 rounded-4 h-100">
+                  <div class="tramite-icon mb-3">
+                    <i class="bi bi-shop"></i>
+                  </div>
+                  <h5 class="fw-bold fs-6 text-white mb-1">
+                    Habilitación Comercial
+                  </h5>
+                  <span class="text-muted small">Guía para emprendedores</span>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
     </main>
 
     <!-- FOOTER INSTITUCIONAL -->
     <footer class="footer-custom pt-5 pb-4 border-top border-dark-subtle">
-        <div class="container">
-            <div class="row g-4 mb-4">
-                <div class="col-12 col-lg-4">
-                    <div class="d-flex align-items-center gap-2 mb-3">
-                        <i class="bi bi-building-fill text-accent fs-3"></i>
-                        <span class="fw-bold text-white fs-5">Municipalidad de Río Piedras</span>
-                    </div>
-                    <p class="text-muted small">Gestión enfocada en la transparencia, el desarrollo comunitario y el bienestar de cada vecino.</p>
-                </div>
-                <div class="col-6 col-lg-2">
-                    <h6 class="text-white fw-bold mb-3">Navegación</h6>
-                    <ul class="list-unstyled text-muted small d-flex flex-column gap-2">
-                        <li><a href="#noticias" class="text-reset text-decoration-none">Noticias</a></li>
-                        <li><a href="#deportes" class="text-reset text-decoration-none">Deportes</a></li>
-                        <li><a href="#tramites" class="text-reset text-decoration-none">Trámites</a></li>
-                        <li><a href="/radio" class="text-reset text-decoration-none">FM Río 104.9</a></li>
-                    </ul>
-                </div>
-                <div class="col-6 col-lg-3">
-                    <h6 class="text-white fw-bold mb-3">Contacto & Atención</h6>
-                    <ul class="list-unstyled text-muted small d-flex flex-column gap-2">
-                        <li><i class="bi bi-geo-alt me-2 text-accent"></i> Palacio Municipal, Río Piedras</li>
-                        <li><i class="bi bi-telephone me-2 text-accent"></i> (03876) 123-456</li>
-                        <li><i class="bi bi-envelope me-2 text-accent"></i> contacto@riopiedras.gob.ar</li>
-                    </ul>
-                </div>
-                <div class="col-12 col-lg-3">
-                    <h6 class="text-white fw-bold mb-3">Redes Sociales</h6>
-                    <div class="d-flex gap-3 fs-5">
-                        <a href="#" class="text-muted text-accent-hover"><i class="bi bi-facebook"></i></a>
-                        <a href="#" class="text-muted text-accent-hover"><i class="bi bi-instagram"></i></a>
-                        <a href="#" class="text-muted text-accent-hover"><i class="bi bi-youtube"></i></a>
-                    </div>
-                </div>
+      <div class="container">
+        <div class="row g-4 mb-4">
+          <div class="col-12 col-lg-4">
+            <div class="d-flex align-items-center gap-2 mb-3">
+              <i class="bi bi-building-fill text-accent fs-3"></i>
+              <span class="fw-bold text-white fs-5"
+                >Municipalidad de Río Piedras</span
+              >
             </div>
-            <div class="border-top border-secondary pt-3 text-center text-muted small">
-                © 2026 Municipalidad de Río Piedras — Todos los derechos reservados.
+            <p class="text-muted small">
+              Gestión enfocada en la transparencia, el desarrollo comunitario y
+              el bienestar de cada vecino.
+            </p>
+          </div>
+          <div class="col-6 col-lg-2">
+            <h6 class="text-white fw-bold mb-3">Navegación</h6>
+            <ul class="list-unstyled text-muted small d-flex flex-column gap-2">
+              <li><a href="#noticias" class="text-reset text-decoration-none">Noticias</a></li>
+              <li><a href="#deportes" class="text-reset text-decoration-none">Deportes</a></li>
+              <li><a href="#tramites" class="text-reset text-decoration-none">Trámites</a></li>
+              <li><a href="/radio" class="text-reset text-decoration-none">FM Río 104.9</a></li>
+            </ul>
+          </div>
+          <div class="col-6 col-lg-3">
+            <h6 class="text-white fw-bold mb-3">Contacto & Atención</h6>
+            <ul class="list-unstyled text-muted small d-flex flex-column gap-2">
+              <li><i class="bi bi-geo-alt me-2 text-accent"></i> Palacio Municipal, Río Piedras</li>
+              <li><i class="bi bi-telephone me-2 text-accent"></i> (03876) 123-456</li>
+              <li><i class="bi bi-envelope me-2 text-accent"></i> contacto@riopiedras.gob.ar</li>
+            </ul>
+          </div>
+          <div class="col-12 col-lg-3">
+            <h6 class="text-white fw-bold mb-3">Redes Sociales</h6>
+            <div class="d-flex gap-3 fs-5">
+              <a href="#" class="text-muted text-accent-hover"><i class="bi bi-facebook"></i></a>
+              <a href="#" class="text-muted text-accent-hover"><i class="bi bi-instagram"></i></a>
+              <a href="#" class="text-muted text-accent-hover"><i class="bi bi-youtube"></i></a>
             </div>
+          </div>
         </div>
+        <div class="border-top border-secondary pt-3 text-center text-muted small">
+          © 2026 Municipalidad de Río Piedras — Todos los derechos reservados.
+        </div>
+      </div>
     </footer>
 
+    <!-- Bootstrap Bundle JS (Requerido para que abran los modales) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
+  </body>
 </html>
