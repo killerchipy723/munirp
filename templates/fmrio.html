@@ -5,56 +5,204 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FM Río 104.9 – Radio Municipal</title>
 
-    <!-- Bootstrap -->
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap 5 CSS & Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
 
     <!-- Estilos propios -->
     <link rel="stylesheet" href="/static/styles/estiloradio.css">
 </head>
 <body>
 
+    <!-- MENÚ SUPERIOR -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top custom-navbar">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center gap-2" href="/">
+                <i class="bi bi-building-fill text-accent fs-4"></i>
+                <div class="d-flex flex-column">
+                    <span class="fw-bold brand-title">MUNICIPALIDAD</span>
+                    <span class="brand-subtitle">DE RÍO PIEDRAS</span>
+                </div>
+            </a>
+
+            <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#menuNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="menuNav">
+                <ul class="navbar-nav ms-auto align-items-center gap-2">
+                    <li class="nav-item"><a class="nav-link" href="/"><i class="bi bi-house-door me-1"></i> Inicio</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/#noticias">Noticias</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/#tramites">Trámites</a></li>
+                    <li class="nav-item ms-lg-2">
+                        <span class="badge badge-live-nav d-flex align-items-center gap-2">
+                            <span class="pulse-icon"></span>
+                            <span>ON AIR - 104.9 MHz</span>
+                        </span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
     <!-- PORTADA -->
-    <section class="header-radio"></section>
+    <header class="header-radio d-flex align-items-center justify-content-center text-center">
+        <div class="header-overlay"></div>
+        <div class="container position-relative z-2">
+            <span class="badge badge-freq mb-3"><i class="bi bi-broadcast me-2"></i>TRANSMISIÓN MUNICIPAL EN VIVO</span>
+            <h1 class="display-4 fw-bold text-white mb-2">FM RÍO 104.9 MHz</h1>
+            <p class="lead text-light-custom mb-0">Transmitiendo 24 horas con música, información y toda la actualidad del municipio.</p>
+        </div>
+    </header>
 
     <!-- CONTENIDO PRINCIPAL -->
-    <div class="radio-container text-center">
+    <main class="container radio-main-container">
 
-        <h2 class="mb-4">Radio Municipal – En Vivo</h2>
-        <p class="mb-4">
-            Transmitiendo 24 horas con música, información y toda la actualidad del municipio.
-        </p>
+        <div class="radio-player-card p-4 p-md-5 rounded-4 shadow-lg mb-5 text-center">
+            
+            <div class="d-inline-flex align-items-center gap-2 badge-live-status px-3 py-2 rounded-pill mb-4">
+                <span class="pulse-icon"></span>
+                <span id="liveStatusLabel" class="fw-bold tracking-wider uppercase text-danger">EN VIVO</span>
+            </div>
 
-        <!-- BOTÓN PLAY -->
-        <button class="btn btn-radio mb-3" onclick="reproducirRadio()">
-            ▶ Escuchar en Vivo
-        </button>
+            <h2 class="fw-bold text-white mb-3">Radio Municipal – En Vivo</h2>
+            <p class="text-readable max-w-lg mx-auto mb-4">
+                Hacé clic en el botón principal o utilizá el reproductor directo a continuación para escuchar la transmisión en vivo.
+            </p>
 
-        <hr class="my-4" style="border-color:#1f2633;">
+            <!-- BOTÓN PLAY PRINCIPAL -->
+            <div class="mb-4">
+                <button id="btnRadioToggle" class="btn btn-radio py-3 px-5 fs-5 fw-bold" onclick="reproducirRadio()">
+                    <i id="btnRadioIcon" class="bi bi-play-circle-fill me-2 fs-4 align-middle"></i>
+                    <span id="btnRadioText">Escuchar en Vivo</span>
+                </button>
+            </div>
 
-        <!-- REPRODUCTOR -->
-        <h4>Reproductor Web</h4>
+            <hr class="my-4 border-secondary opacity-25">
 
-        <audio
-            id="radioPlayer"
-            controls
-            preload="none"
-        >
-            <source src="/radio.mp3" type="audio/mpeg">
-            Tu navegador no permite reproducir audio en vivo.
-        </audio>
+            <!-- REPRODUCTOR DIRECTO -->
+            <div class="max-w-md mx-auto">
+                <h5 class="text-white mb-3"><i class="bi bi-boombox me-2 text-accent"></i>Reproductor Web</h5>
 
-    </div>
+                <audio
+                    id="radioPlayer"
+                    controls
+                    preload="none"
+                    class="w-100 custom-audio-player"
+                >
+                    <source src="http://200.58.106.156:3200/radio.mp3" type="audio/mpeg">
+                    Tu navegador no permite reproducir audio en vivo.
+                </audio>
+            </div>
 
-    <!-- SCRIPT -->
+        </div>
+
+        <!-- SECCIÓN DE CONTACTO & PROGRAMACIÓN -->
+        <div class="row g-4 mb-5">
+            <!-- Programación -->
+            <div class="col-12 col-lg-7">
+                <div class="info-card p-4 rounded-4 h-100">
+                    <div class="d-flex align-items-center gap-2 mb-4 border-bottom border-secondary pb-3">
+                        <i class="bi bi-calendar3-week text-accent fs-4"></i>
+                        <h3 class="h4 fw-bold text-white m-0">Programación</h3>
+                    </div>
+                    <ul class="list-unstyled schedule-list m-0">
+                        <li class="d-flex justify-content-between align-items-center py-3 border-bottom border-dark-subtle">
+                            <div>
+                                <span class="badge bg-primary mb-1">07:00 - 09:00</span>
+                                <h5 class="fw-bold text-white mb-0">Informativo Municipal</h5>
+                                <small class="text-readable">Toda la actualidad del municipio.</small>
+                            </div>
+                            <span class="badge badge-status">Lunes a Viernes</span>
+                        </li>
+                        <li class="d-flex justify-content-between align-items-center py-3 border-bottom border-dark-subtle">
+                            <div>
+                                <span class="badge bg-info text-dark mb-1">09:00 - 13:00</span>
+                                <h5 class="fw-bold text-white mb-0">Mañanas de Río</h5>
+                                <small class="text-readable">Música variada, entrevistas e invitados.</small>
+                            </div>
+                            <span class="badge badge-status">Lunes a Viernes</span>
+                        </li>
+                        <li class="d-flex justify-content-between align-items-center py-3">
+                            <div>
+                                <span class="badge bg-warning text-dark mb-1">13:00 - 18:00</span>
+                                <h5 class="fw-bold text-white mb-0">Tarde Total</h5>
+                                <small class="text-readable">Entretenimiento y deportes locales.</small>
+                            </div>
+                            <span class="badge badge-status">Lunes a Viernes</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Interacción / Mensajes -->
+            <div class="col-12 col-lg-5">
+                <div class="info-card p-4 rounded-4 h-100 d-flex flex-column justify-content-between">
+                    <div>
+                        <div class="d-flex align-items-center gap-2 mb-4 border-bottom border-secondary pb-3">
+                            <i class="bi bi-chat-dots-fill text-accent fs-4"></i>
+                            <h3 class="h4 fw-bold text-white m-0">Pedí tu canción</h3>
+                        </div>
+                        <p class="text-readable mb-4">Mandá tu mensaje o saludo en vivo a través de nuestro WhatsApp oficial:</p>
+
+                        <a href="https://wa.me/5493876558670" target="_blank" class="btn btn-whatsapp w-100 mb-3 d-flex align-items-center justify-content-center gap-2">
+                            <i class="bi bi-whatsapp fs-4"></i>
+                            <span>Enviar WhatsApp a la Radio</span>
+                        </a>
+                    </div>
+
+                    <div class="text-center pt-3 border-top border-dark-subtle">
+                        <small class="text-readable d-block mb-2">Escuchanos también en la frecuencia 104.9 MHz</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- CONTROL DE AUDIO JAVASCRIPT -->
     <script>
         function reproducirRadio() {
             const radio = document.getElementById("radioPlayer");
-            radio.play().catch(error => {
-                console.error("No se pudo reproducir la radio:", error);
-            });
+            const btnIcon = document.getElementById("btnRadioIcon");
+            const btnText = document.getElementById("btnRadioText");
+            const streamUrl = "http://200.58.106.156:8000/radio.mp3";
+
+            if (radio.paused) {
+                // Aseguramos la URL del servidor
+                if (!radio.src || radio.src === "") {
+                    radio.src = streamUrl;
+                }
+                
+                // Forzamos recarga del flujo de audio
+                radio.load(); 
+
+                if (btnText) btnText.innerText = "Conectando...";
+
+                radio.play().then(() => {
+                    if (btnIcon) btnIcon.className = "bi bi-pause-circle-fill me-2 fs-4 align-middle";
+                    if (btnText) btnText.innerText = "Pausar Radio";
+                    console.log("FM Río 104.9 transmitiendo con éxito");
+                }).catch(error => {
+                    console.error("Error al reproducir:", error);
+                    if (btnIcon) btnIcon.className = "bi bi-play-circle-fill me-2 fs-4 align-middle";
+                    if (btnText) btnText.innerText = "Escuchar en Vivo";
+                    alert("No se pudo conectar a la transmisión de la radio. Verificá que el servidor de streaming esté activo.");
+                });
+            } else {
+                radio.pause();
+                if (btnIcon) btnIcon.className = "bi bi-play-circle-fill me-2 fs-4 align-middle";
+                if (btnText) btnText.innerText = "Escuchar en Vivo";
+            }
         }
     </script>
 
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-
