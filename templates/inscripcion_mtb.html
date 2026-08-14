@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inscripción Evento MTB</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Forzar mayúsculas en los campos de texto */
+        .text-upper { text-transform: uppercase; }
+    </style>
+</head>
+<body class="bg-light">
+
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-8 col-lg-6">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white text-center">
+                    <h4>Inscripción - Mountain Bike</h4>
+                </div>
+                <div class="card-body">
+                    <form action="/guardar-inscripcion" method="POST" enctype="multipart/form-data">
+                        
+                        <div class="row mb-3">
+                            <div class="col-6">
+                                <label class="form-label">Apellido</label>
+                                <input type="text" name="apellido" class="form-control text-upper" required>
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label">Nombre</label>
+                                <input type="text" name="nombre" class="form-control text-upper" required>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-6">
+                                <label class="form-label">DNI</label>
+                                <input type="text" name="dni" class="form-control" required>
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label">Localidad</label>
+                                <input type="text" name="localidad" class="form-control text-upper" required>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-6">
+                                <label class="form-label">Género</label>
+                                <select id="genero" name="genero" class="form-select" required>
+                                    <option value="">Seleccione...</option>
+                                    <option value="M">Masculino</option>
+                                    <option value="F">Femenino</option>
+                                </select>
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label">Fecha Nacimiento</label>
+                                <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" class="form-control" required>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Categoría</label>
+                            <select id="categoria_id" name="categoria_id" class="form-select" required disabled>
+                                <option value="">Primero seleccione fecha y género...</option>
+                            </select>
+                        </div>
+
+                        <!-- Captura de foto con cámara o archivo -->
+                        <div class="mb-4">
+                            <label class="form-label">Foto / Selfie</label>
+                            <input type="file" name="foto" class="form-control" accept="image/*" capture="environment" required>
+                            <small class="text-muted">* Si está en celular, se abrirá la cámara.</small>
+                        </div>
+
+                        <button type="submit" class="btn btn-success w-100 btn-lg">Finalizar Inscripción</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Tu script original sigue funcionando, solo ajustamos los selectores
+    const inputFechaNac = document.getElementById('fecha_nacimiento');
+    const selectGenero = document.getElementById('genero');
+    const selectCategoria = document.getElementById('categoria_id');
+
+    function validarYBuscarCategorias() {
+        const fecha = inputFechaNac.value;
+        const genero = selectGenero.value;
+
+        if (fecha && genero) {
+            fetch('/api/obtener-categorias', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ fecha_nacimiento: fecha, genero: genero })
+            })
+            .then(response => response.json())
+            .then(data => {
+                selectCategoria.innerHTML = '<option value="">Seleccione categoría...</option>';
+                selectCategoria.disabled = false;
+                data.categorias.forEach(cat => {
+                    const opt = document.createElement('option');
+                    opt.value = cat.categoria_id;
+                    opt.textContent = `${cat.categoria_nombre} - ${cat.kilometros} KM`;
+                    selectCategoria.appendChild(opt);
+                });
+            });
+        }
+    }
+
+    inputFechaNac.addEventListener('change', validarYBuscarCategorias);
+    selectGenero.addEventListener('change', validarYBuscarCategorias);
+</script>
+
+</body>
+</html>
