@@ -15,11 +15,7 @@ pool = PooledDB(
     password="SistemaIES6021",
     database="c2710325_muni",
 
-     host="localhost",
-        port=3306,
-        user="root",
-        password="inclub123",
-        database="muni",
+    
 
     charset="utf8mb4",
     cursorclass=DictCursor,
