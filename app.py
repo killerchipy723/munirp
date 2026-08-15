@@ -9,6 +9,8 @@ from modules.inscripciones import inscripciones_bp
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'clave_secreta_muni_rio_piedras'
 
+app.config['MAX_CONTENT_LENGTH'] = 32 * 1024 * 1024
+
 # Registro de Blueprints
 app.register_blueprint(main_bp)
 app.register_blueprint(radio_bp)

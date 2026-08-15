@@ -64,68 +64,99 @@ def obtener_categorias():
     })
 
 # Guardar inscripción y preparar datos para el comprobante
+from flask import Blueprint, render_template, request, jsonify, redirect, url_for, flash, session
+from datetime import datetime
+import os
+from db import get_connection  # Usa la versión con PooledDB
+
+mtb_bp = Blueprint('mtb', __name__)
+
+UPLOAD_FOLDER = 'static/uploads/participantes'
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+
+@mtb_bp.route('/inscripcion-mtb')
+def inscripcion_mtb():
+    return render_template('inscripcion_mtb.html')
+
+@mtb_bp.route('/api/obtener-categorias', methods=['POST'])
+def obtener_categorias():
+    data = request.get_json() or {}
+    fecha_nac_str = data.get('fecha_nacimiento')
+    genero = data.get('genero')
+
+    if not fecha_nac_str or not genero:
+        return jsonify({'error': 'Faltan datos'}), 400
+
+    try:
+        fecha_nac = datetime.strptime(fecha_nac_str, '%Y-%m-%d')
+        hoy = datetime.today()
+        edad = hoy.year - fecha_nac.year - ((hoy.month, hoy.day) < (fecha_nac.month, fecha_nac.day))
+    except:
+        return jsonify({'error': 'Fecha inválida'}), 400
+
+    conn = get_connection()
+    try:
+        with conn.cursor() as cursor:
+            query = """
+                SELECT c.id AS categoria_id, c.grupo, c.nombre AS categoria_nombre, 
+                       cir.id AS circuito_id, cir.nombre AS circuito_nombre, cir.kilometros
+                FROM categorias c
+                JOIN circuitos cir ON c.circuito_id = cir.id
+                WHERE %s BETWEEN c.edad_min AND c.edad_max
+                AND (UPPER(c.genero) = UPPER(%s) OR UPPER(c.genero) = 'UNISEX')
+            """
+            cursor.execute(query, (edad, genero))
+            categorias = cursor.fetchall()
+    finally:
+        conn.close() # Devuelve al Pool
+
+    return jsonify({'categorias': categorias})
+
 @mtb_bp.route('/guardar-inscripcion', methods=['POST'])
 def guardar_inscripcion():
     dni = request.form.get('dni', '').strip()
+    apellido = request.form.get('apellido', '').strip().upper()
+    nombre = request.form.get('nombre', '').strip().upper()
+    localidad = request.form.get('localidad', '').strip().upper()
+    fecha_nac = request.form.get('fecha_nacimiento')
+    genero = request.form.get('genero', '').strip().upper()
+    categoria_id = request.form.get('categoria_id')
+    circuito_id = request.form.get('circuito_id')
     
     conn = get_connection()
     try:
         with conn.cursor() as cursor:
-            # 1. Validar que el DNI no esté duplicado
+            # 1. Validar duplicado
             cursor.execute("SELECT id FROM participantes WHERE dni = %s", (dni,))
-            existente = cursor.fetchone()
-
-            if existente:
-                flash('ERROR: El DNI ingresado ya se encuentra inscripto.', 'danger')
+            if cursor.fetchone():
+                flash('ERROR: El DNI ya está inscripto.', 'danger')
                 return redirect(url_for('mtb.inscripcion_mtb'))
 
-            # 2. Recibir los datos del formulario
-            apellido = request.form.get('apellido', '').strip().upper()
-            nombre = request.form.get('nombre', '').strip().upper()
-            localidad = request.form.get('localidad', '').strip().upper()
-            fecha_nacimiento = request.form.get('fecha_nacimiento')
-            genero = request.form.get('genero', '').strip().upper()
-            categoria_id = request.form.get('categoria_id')
-            circuito_id = request.form.get('circuito_id')
-            
-            # Guardar la foto subida
+            # 2. Guardar foto
             foto = request.files.get('foto')
             filename = None
-            if foto and foto.filename != '':
-                filename = f"{dni}_{foto.filename}"
+            if foto and foto.filename:
+                # Limpiamos el nombre del archivo para evitar caracteres raros
+                clean_name = "".join([c for c in foto.filename if c.isalnum() or c in ('.', '_')])
+                filename = f"{dni}_{clean_name}"
                 foto.save(os.path.join(UPLOAD_FOLDER, filename))
 
-            # Insertar participante
-            query = """
-                INSERT INTO participantes 
-                (apellido, nombre, dni, localidad, fecha_nacimiento, genero, foto, categoria_id, circuito_id)
-                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
-            """
-            cursor.execute(query, (apellido, nombre, dni, localidad, fecha_nacimiento, genero, filename, categoria_id, circuito_id))
+            # 3. Insertar
+            query = """INSERT INTO participantes (apellido, nombre, dni, localidad, fecha_nacimiento, genero, foto, categoria_id, circuito_id) 
+                       VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)"""
+            cursor.execute(query, (apellido, nombre, dni, localidad, fecha_nac, genero, filename, categoria_id, circuito_id))
             inscrito_id = cursor.lastrowid
 
-            # 3. Consultar nombre de la categoría asignada
-            cursor.execute("SELECT nombre FROM categorias WHERE id = %s", (categoria_id,))
-            cat_res = cursor.fetchone()
-            
-            categoria_nombre = 'General'
-            if cat_res:
-                categoria_nombre = cat_res['nombre'] if isinstance(cat_res, dict) else cat_res[0]
-
-            # 4. Guardar datos en la sesión para alimentar la tarjeta/comprobante
-            session['inscrito_id'] = str(inscrito_id).zfill(3) if inscrito_id else '001'
+            # 4. Sesión (Feedback usuario)
+            session['inscrito_id'] = str(inscrito_id).zfill(3)
             session['inscrito_nombre'] = f"{nombre} {apellido}"
-            session['inscrito_dni'] = dni
-            session['inscrito_categoria'] = categoria_nombre
-        
-        conn.commit()
+            
     except Exception as e:
-        conn.rollback()
-        print(f"ERROR AL GUARDAR INSCRIPCION: {e}")
-        flash(f'Ocurrió un error al guardar: {e}', 'danger')
+        print(f"ERROR: {e}")
+        flash('Error al procesar inscripción. Intente de nuevo.', 'danger')
         return redirect(url_for('mtb.inscripcion_mtb'))
     finally:
-        conn.close()
+        conn.close() # Fundamental para no agotar conexiones
 
-    flash('¡Inscripción realizada con éxito!', 'success')
+    flash('¡Inscripción exitosa!', 'success')
     return redirect(url_for('mtb.inscripcion_mtb'))
